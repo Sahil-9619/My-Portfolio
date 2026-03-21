@@ -1,13 +1,26 @@
-import React from 'react'
-import Hero from './components/Hero'
-import About from './components/About'
+"use client";
 
-const page = () => {
+import React, { useRef } from "react";
+import { useScroll, useSpring } from "framer-motion";
+import Hero from "./components/Hero";
+import About from "./components/About";
+import ThemeToggle from "./components/ThemeToggle";
+
+export default function Page() {
+  const ref = useRef(null);
+
+  const { scrollYProgress } = useScroll();
+
+  const smooth = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+  });
+
   return (
-    <div>
-      <Hero/>
-    </div>
-  )
+    <main ref={ref} className="relative bg-black">
+      
+      <Hero scrollProgress={smooth} />
+      <About />
+    </main>
+  );
 }
-
-export default page

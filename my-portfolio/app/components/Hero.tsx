@@ -9,7 +9,8 @@ import {
   useMotionValue, 
   useMotionTemplate,
   useTransform,
-  useSpring
+  useSpring,
+  MotionValue
 } from "framer-motion";
 import { 
   Github, Linkedin, Mail, ExternalLink, Code2, 
@@ -18,6 +19,12 @@ import {
   ArrowUpRight, Instagram, Twitter
 } from "lucide-react";
 import { useTheme } from "../hooks/useTheme";
+import { TextHoverEffect } from "@/components/ui/text-hover-effect";
+import Pointer from "../components/Pointer";
+import { useMouse } from "../hooks/useMouse";
+
+
+
 // --- CONFIGURATION & DATA ---
 const NAV_LINKS = [
   { name: "About", href: "#about" },
@@ -53,17 +60,39 @@ const PROJECTS = [
   }
 ];
 
-// Magnetic Link Component
+type Props = {
+  scrollProgress: MotionValue<number>;
+};
 
-export default function App() {
+export default function App({scrollProgress}:Props) {
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [hoveredNav, setHoveredNav] = useState(null); 
+  const [hoveredNav, setHoveredNav] = useState<number | null>(null); 
   const [hidden, setHidden] = useState(false);
   const [clickHue, setClickHue] = useState(190); 
   const [time, setTime] = useState("");
+  const { mouseX, mouseY } = useMouse();
 
   const { scrollY, scrollYProgress } = useScroll();
   const { setTheme } = useTheme();
+
+
+const scale = useTransform(scrollY, [0, 500], [1, 0.85]);
+const opacity = useTransform(scrollY, [0, 300], [1, 0.3]);
+//const blur = useTransform(scrollY, [0, 400], [0, 20]);
+
+
+const cardX = useSpring(
+  useTransform(mouseX, [0, 1000], [-20, 20]),
+  { stiffness: 100, damping: 20 }
+);
+
+const cardY = useSpring(
+  useTransform(mouseY, [0, 800], [-20, 20]),
+  { stiffness: 100, damping: 20 }
+);
+
+//const filter = useMotionTemplate`blur(${blur}px)`;
 
   // Scroll Progress Scale
   const scaleX = useSpring(scrollYProgress, {
@@ -86,34 +115,11 @@ export default function App() {
   const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.5]);
   const heroY = useTransform(scrollY, [0, 800], [0, 100]);
 
-  // Mouse Interactivity
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  // Re-designed Cursor Springs (Lighter Feel)
-  const cursorSpringConfig = { stiffness: 400, damping: 35 };
-  const auraSpringConfig = { stiffness: 50, damping: 20 };
-  
-  const cursorX = useSpring(mouseX, cursorSpringConfig);
-  const cursorY = useSpring(mouseY, cursorSpringConfig);
-  
-  const auraX = useSpring(mouseX, auraSpringConfig);
-  const auraY = useSpring(mouseY, auraSpringConfig);
-
   // Reduced sensitivity tilt springs
   const heroRotateX = useSpring(0, { stiffness: 35, damping: 20 });
   const heroRotateY = useSpring(0, { stiffness: 35, damping: 20 });
 
-  useEffect(() => {
-    const handleGlobalMouseMove = (e) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
-    };
-    window.addEventListener("mousemove", handleGlobalMouseMove);
-    return () => window.removeEventListener("mousemove", handleGlobalMouseMove);
-  }, [mouseX, mouseY]);
-
-  const handleHeroMouseMove = (e) => {
+  const handleHeroMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -134,7 +140,7 @@ export default function App() {
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const prev = scrollY.getPrevious();
-    if (latest > 100 && latest > prev) setHidden(true);
+    if (latest > 100 && prev !== undefined && latest > prev) setHidden(true);
     else setHidden(false);
   });
 
@@ -167,40 +173,17 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] selection:bg-[var(--accent-soft)] font-sans overflow-x-hidden will-change-scroll cursor-none">
-      
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] selection:bg-[var(--accent-soft)] font-sans  will-change-scroll cursor-none">
+      <Pointer/>
       {/* --- NOISE TEXTURE OVERLAY --- */}
       <div className="fixed inset-0 pointer-events-none z-[9999] opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150" />
 
       {/* --- SCROLL PROGRESS BAR --- */}
-      <motion.div 
+      <motion.div
+       
         className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--accent)] via-[var(--accent)] to-[var(--accent)] z-[100] origin-left"
         style={{ scaleX }}
       />
-
-      {/* --- RE-DESIGNED CUSTOM POINTER --- */}
-      {/* Outer Aura */}
-      <motion.div 
-        className="fixed top-0 left-0 w-16 h-16 rounded-full border border-[var(--border)] bg-[var(--card)] pointer-events-none z-[100] backdrop-blur-[2px]"
-        style={{ x: auraX, y: auraY, translateX: "-50%", translateY: "-50%" }}
-      />
-      {/* Crosshair horizontal */}
-      <motion.div 
-        className="fixed top-0 left-0 w-4 h-[1px] bg-[var(--accent)] pointer-events-none z-[100]"
-        style={{ x: cursorX, y: cursorY, translateX: "-50%", translateY: "-50%" }}
-      />
-      {/* Crosshair vertical */}
-      <motion.div 
-        className="fixed top-0 left-0 w-[1px] h-4 bg-[var(--accent)] pointer-events-none z-[100]"
-        style={{ x: cursorX, y: cursorY, translateX: "-50%", translateY: "-50%" }}
-      />
-      {/* Central Point */}
-      <motion.div 
-        className="fixed top-0 left-0 w-1 h-1 bg-[var(--text)] rounded-full pointer-events-none z-[100]"
-        style={{ x: cursorX, y: cursorY, translateX: "-50%", translateY: "-50%" }}
-      />
-
-      {/* --- RGB MOVING BORDER NAVBAR --- */}
        {/* --- RGB MOVING BORDER NAVBAR --- */}
       <motion.div
         variants={{ visible: { y: 0, opacity: 1 }, hidden: { y: "-150%", opacity: 0 } }}
@@ -236,29 +219,16 @@ export default function App() {
           </nav>
         </div>
       </motion.div>
-      <main className="relative w-full">
-        <div className="absolute top-6 right-6 z-[999] flex gap-2 bg-[var(--card)] border border-[var(--border)] p-2 rounded-xl backdrop-blur-xl">
-  
-  <button onClick={() => setTheme("dark")} className="px-3 py-1 text-sm text-[var(--text)] hover:bg-[var(--accent-soft)] rounded">
-    🌙
-  </button>
-
-  <button onClick={() => setTheme("light")} className="px-3 py-1 text-sm text-[var(--text)] hover:bg-[var(--accent-soft)] rounded">
-    ☀️
-  </button>
-
-  <button onClick={() => setTheme("rose")} className="px-3 py-1 text-sm text-[var(--text)] hover:bg-[var(--accent-soft)] rounded">
-    🌸
-  </button>
-
-  <button onClick={() => setTheme("nature")} className="px-3 py-1 text-sm text-[var(--text)] hover:bg-[var(--accent-soft)] rounded">
-    🌿
-  </button>
-
-</div>
+      
         {/* --- HERO SECTION --- */}
-        <section 
-          className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden bg-[var(--bg)] z-0 pt-24"
+        <motion.section
+  style={{
+    scale,
+    opacity,
+  
+  }}
+
+          className="sticky top-0 h-screen w-full flex items-center justify-center  bg-[var(--bg)] z-0 pt-24"
           onMouseMove={handleHeroMouseMove}
           onMouseLeave={handleHeroMouseLeave}
           onClick={() => setClickHue(prev => (prev + 45) % 360)}
@@ -287,20 +257,18 @@ export default function App() {
                   SAHIL
                 </motion.h1>
               </div>
-              <div className="overflow-hidden mt-2">
-                <motion.h1 
-                  initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-                  className="text-[14vw] lg:text-[10vw] font-black leading-[0.8] tracking-tighter uppercase text-transparent bg-clip-text"
-                  style={{ 
-                    WebkitTextStroke: "1px rgba(255,255,255,0.7)",
-                    backgroundImage: "linear-gradient(to_right,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff,#ff0000)",
-                    backgroundSize: "200% auto",
-                    animation: "gradient 6s linear infinite"
-                  }}
-                >
-                  KUMAR
-                </motion.h1>
-              </div>
+              <motion.div
+  initial={{ y: "100%", opacity: 0 }}
+  animate={{ y: 0, opacity: 1 }}
+  transition={{
+    duration: 1,
+    delay: 0.2,
+    ease: [0.16, 1, 0.3, 1],
+  }}
+  className="overflow-hidden mt-2 h-[14vw] lg:h-[10vw] flex items-center"
+>
+  <TextHoverEffect text="KUMAR" />
+</motion.div>
               
               <motion.div 
                 initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6 }}
@@ -320,13 +288,13 @@ export default function App() {
 
             {/* RIGHT: BENTO GRID WITH LOADING STAGGER */}
             <motion.div 
-              style={{ rotateX: heroRotateX, rotateY: heroRotateY, transformStyle: "preserve-3d" }}
+              style={{ rotateX: heroRotateX, rotateY: heroRotateY,x:cardX,y:cardY, transformStyle: "preserve-3d" }}
               variants={bentoContainer}
               initial="hidden"
               animate="show"
               className="relative z-10 w-full grid grid-cols-2 grid-rows-3 gap-4 h-[500px] will-change-transform"
             >
-              <motion.div variants={bentoItem} className="col-span-2 bg-[var(--text)]/5 border border-[var(--border)] rounded-3xl p-8 backdrop-blur-md flex flex-col justify-between group overflow-hidden relative">
+              <motion.div variants={bentoItem} className="col-span-2 bg-[var(--text)]/5 border border-[var(--border)] rounded-3xl p-8 backdrop-blur-none flex flex-col justify-between group overflow-hidden relative">
                 <div className="absolute -right-4 -top-4 w-24 h-24 bg-[var(--accent)]/10 rounded-full blur-2xl group-hover:bg-[var(--accent)]/20 transition-all" />
                 <div className="flex justify-between items-start">
                   <Zap className="text-[var(--accent)]" size={24} />
@@ -338,7 +306,7 @@ export default function App() {
                 </div>
               </motion.div>
 
-              <motion.div variants={bentoItem} className="bg-[var(--card)] border border-[var(--border)] rounded-3xl p-6 backdrop-blur-sm flex flex-col justify-between">
+              <motion.div variants={bentoItem} className="bg-[var(--card)] border border-[var(--border)] rounded-3xl p-6 backdrop-blur-none flex flex-col justify-between">
                 <div className="flex items-center gap-2 text-[var(--text-muted)]">
                   <Globe size={14} />
                   <span className="text-[10px] uppercase font-bold tracking-tighter">Patna, India</span>
@@ -352,7 +320,7 @@ export default function App() {
                 </div>
               </motion.div>
 
-              <motion.div variants={bentoItem} className="bg-cyan-500/10 border border-cyan-500/20 rounded-3xl p-6 backdrop-blur-sm flex flex-col justify-center items-center text-center group">
+              <motion.div variants={bentoItem} className="bg-cyan-500/10 border border-cyan-500/20 rounded-3xl p-6 backdrop-blur-none flex flex-col justify-center items-center text-center group">
                  <div className="relative mb-3">
                    <div className="w-3 h-3 bg-cyan-400 rounded-full" />
                    <div className="absolute inset-0 w-3 h-3 bg-cyan-400 rounded-full animate-ping" />
@@ -371,10 +339,10 @@ export default function App() {
               </motion.div>
             </motion.div>
           </motion.div>
-        </section>
-        </main>
+        </motion.section>
+        
 
         
-    </div>
+    </main>
   );
 }
