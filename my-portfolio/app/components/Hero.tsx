@@ -1,64 +1,22 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect} from "react";
 import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useMotionValueEvent, 
-  useMotionValue, 
+  motion,  
+  useScroll,
   useMotionTemplate,
   useTransform,
   useSpring,
   MotionValue
 } from "framer-motion";
 import { 
-  Github, Linkedin, Mail, ExternalLink, Code2, 
-  Terminal, Database, LayoutTemplate, Menu, X, 
-  Sparkles, Flame, MapPin, Globe, Clock, Zap,
-  ArrowUpRight, Instagram, Twitter
+  Terminal, Database, LayoutTemplate, Menu, Globe, Clock, Zap,
+  ArrowUpRight
 } from "lucide-react";
-import { useTheme } from "../hooks/useTheme";
 import { TextHoverEffect } from "@/components/ui/text-hover-effect";
 import Pointer from "../components/Pointer";
 import { useMouse } from "../hooks/useMouse";
 
-
-
-// --- CONFIGURATION & DATA ---
-const NAV_LINKS = [
-  { name: "About", href: "#about" },
-  { name: "Skills", href: "#skills" },
-  { name: "Projects", href: "#projects" },
-  { name: "Contact", href: "#contact" },
-];
-
-const SKILLS = [
-  { category: "Frontend", icon: <LayoutTemplate size={20}/>, items: ["React.js", "Next.js", "Tailwind CSS", "Framer Motion", "Three.js"] },
-  { category: "Backend", icon: <Database size={20}/>, items: ["Node.js", "Express.js", "MongoDB", "PostgreSQL", "Firebase"] },
-  { category: "Tools", icon: <Terminal size={20}/>, items: ["Git", "GitHub", "Docker", "Figma", "Vercel"] },
-];
-
-const PROJECTS = [
-  {
-    title: "EcoTrack Dashboard",
-    description: "Environmental monitoring system with real-time data visualization and predictive analytics.",
-    tech: ["Next.js", "Tailwind", "D3.js"],
-    color: "from-emerald-500 to-teal-500"
-  },
-  {
-    title: "School Admin Panel",
-    description: "Full-stack management solution for educational institutions with automated fee tracking.",
-    tech: ["React", "Node.js", "PostgreSQL"],
-    color: "from-blue-500 to-indigo-500"
-  },
-  {
-    title: "Nexus Desktop",
-    description: "Web-based OS simulation featuring window management and custom app ecosystem.",
-    tech: ["React", "Redux", "Framer"],
-    color: "from-purple-500 to-pink-500"
-  }
-];
 
 type Props = {
   scrollProgress: MotionValue<number>;
@@ -66,15 +24,12 @@ type Props = {
 
 export default function App({scrollProgress}:Props) {
 
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [hoveredNav, setHoveredNav] = useState<number | null>(null); 
-  const [hidden, setHidden] = useState(false);
+  
   const [clickHue, setClickHue] = useState(190); 
   const [time, setTime] = useState("");
   const { mouseX, mouseY } = useMouse();
 
   const { scrollY, scrollYProgress } = useScroll();
-  const { setTheme } = useTheme();
 
 
 const scale = useTransform(scrollY, [0, 500], [1, 0.85]);
@@ -91,8 +46,6 @@ const cardY = useSpring(
   useTransform(mouseY, [0, 800], [-20, 20]),
   { stiffness: 100, damping: 20 }
 );
-
-//const filter = useMotionTemplate`blur(${blur}px)`;
 
   // Scroll Progress Scale
   const scaleX = useSpring(scrollYProgress, {
@@ -138,11 +91,7 @@ const cardY = useSpring(
     heroRotateY.set(0);
   };
 
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    const prev = scrollY.getPrevious();
-    if (latest > 100 && prev !== undefined && latest > prev) setHidden(true);
-    else setHidden(false);
-  });
+  
 
   const bgGradient = useMotionTemplate`radial-gradient(600px circle at ${mouseX}px ${mouseY}px, hsla(${clickHue}, 70%, 50%, 0.1), transparent 80%)`;
 
@@ -181,44 +130,10 @@ const cardY = useSpring(
       {/* --- SCROLL PROGRESS BAR --- */}
       <motion.div
        
-        className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--accent)] via-[var(--accent)] to-[var(--accent)] z-[100] origin-left"
+        className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--accent)] via-[var(--accent)] to-[var(--accent)] z-[999] origin-left"
         style={{ scaleX }}
       />
-       {/* --- RGB MOVING BORDER NAVBAR --- */}
-      <motion.div
-        variants={{ visible: { y: 0, opacity: 1 }, hidden: { y: "-150%", opacity: 0 } }}
-        animate={hidden ? "hidden" : "visible"}
-        className="fixed top-6 inset-x-0 mx-auto max-w-fit z-[70] px-4"
-      >
-        <div className="relative rounded-full p-[1.5px] overflow-hidden group">
-          <motion.div
-            animate={{ rotate: [0, 360] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-            className="absolute inset-[-400%] bg-[conic-gradient(from_0deg,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff,#ff0000)] opacity-60 blur-[2px]"
-          />
-          
-          <nav className="relative z-10 flex items-center gap-6 px-4 py-3 md:px-6 rounded-full bg-black/95 backdrop-blur-xl shadow-2xl">
-            <a href="#" className="text-xl font-black text-white pr-4 border-r border-white/10 tracking-tighter">SK.</a>
-            <div className="hidden md:flex items-center gap-2">
-              {NAV_LINKS.map((link, idx) => (
-                <a 
-                  key={link.name} 
-                  href={link.href}
-                  onMouseEnter={() => setHoveredNav(idx)}
-                  onMouseLeave={() => setHoveredNav(null)}
-                  className="relative px-4 py-2 text-sm font-medium text-neutral-400 hover:text-white transition-colors"
-                >
-                  {hoveredNav === idx && (
-                    <motion.div layoutId="nav-pill" className="absolute inset-0 bg-white/10 rounded-full -z-10" />
-                  )}
-                  {link.name}
-                </a>
-              ))}
-            </div>
-            <button className="md:hidden text-white" onClick={() => setMobileMenuOpen(true)}><Menu size={20}/></button>
-          </nav>
-        </div>
-      </motion.div>
+
       
         {/* --- HERO SECTION --- */}
         <motion.section

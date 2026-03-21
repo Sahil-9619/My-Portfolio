@@ -27,13 +27,25 @@ export default function About() {
         {/* MAIN CONTENT */}
         <motion.div 
           style={{ y: mainY,  }}
-          className="lg:col-span-8 rounded-[2.5rem] p-8 md:p-12 border border-[var(--border)] bg-[var(--card)] backdrop-blur-none overflow-hidden group"
-        >
+          className="lg:col-span-8  p-8 md:p-12 bg-[var(--card)] backdrop-blur-none overflow-hidden group relative"
+        >{/* Custom Borders */}
+<div className="pointer-events-none absolute inset-0 rounded-[2.5rem]">
+  
+  {/* Bottom Border (FULL) */}
+  <div className="absolute bottom-0 left-0 w-full h-[1px] bg-[var(--border)]" />
+
+  {/* Left Border (GRADIENT) */}
+  <div className="absolute left-0 top-0 h-full w-[1px] bg-gradient-to-b from-transparent via-[var(--accent-soft)] to-[var(--accent)]" />
+
+  {/* Right Border (GRADIENT) */}
+  <div className="absolute right-0 top-0 h-full w-[1px] bg-gradient-to-b from-transparent via-[var(--accent-soft)] to-[var(--accent)]" />
+
+</div>
           <div className="flex flex-col h-full justify-between">
             <div className="space-y-6">
 
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-[var(--accent)] animate-pulse" />
+                <div className="w-2 h-2  bg-[var(--accent)] animate-pulse" />
                 <span className="text-xs font-mono uppercase tracking-[0.3em] text-[var(--accent)] opacity-80">
                   Identity.System
                 </span>
@@ -49,9 +61,9 @@ export default function About() {
               </p>
             </div>
 
-            <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="mt- grid grid-cols-2 md:grid-cols-4 gap-4">
                <Stat label="Solved" value="500+" sub="LeetCode" />
-               <Stat label="Experience" value="3+" sub="Years" />
+               <Stat label="Experience" value="1+" sub="Years" />
                <Stat label="Projects" value="12+" sub="Completed" />
                <Stat label="Coffee" value="∞" sub="Cups" />
             </div>
