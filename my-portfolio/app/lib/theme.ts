@@ -5,7 +5,7 @@ export const themes = {
     "--text-muted": "#a3a3a3",
     "--card": "rgba(255,255,255,0.04)",
     "--border": "rgba(255,255,255,0.1)",
-    "--accent": "#f97316",
+    "--accent": "#08d1dbf9",
     "--accent-soft": "rgba(249,115,22,0.15)",
   },
   light: {
