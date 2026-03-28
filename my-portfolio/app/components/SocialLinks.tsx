@@ -7,21 +7,21 @@ const links = [
   {
     name: "LinkedIn",
     icon: <Linkedin size={24} />,
-    href: "#",
+    href: "https://www.linkedin.com/in/sahil-kumar230",
     color: "#0A66C2",
     shadowColor: "#004182",
   },
   {
     name: "GitHub",
     icon: <Github size={24} />,
-    href: "#",
+    href: "https://github.com/Sahil-9619",
     color: "#24292e",
     shadowColor: "#282727",
   },
   {
     name: "LeetCode",
     icon: <Code2 size={22} />,
-    href: "#",
+    href: "https://leetcode.com/u/sahil9619/",
     color: "#FFA116",
     shadowColor: "#C17900",
   },
@@ -48,7 +48,7 @@ const SocialButton = ({ item }: { item: typeof links[0] }) => {
       >
         {/* Glossy Overlay */}
         <div className="absolute top-0 left-0 w-full h-1/2 bg-white/10 pointer-events-none" />
-        
+
         {/* Content */}
         <div className="flex items-center gap-4 z-10 text-white">
           <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm group-hover:scale-110 transition-transform duration-300">
@@ -60,7 +60,7 @@ const SocialButton = ({ item }: { item: typeof links[0] }) => {
         </div>
 
         {/* Small Arrow Indicator */}
-        <motion.div 
+        <motion.div
           className="text-white group-hover:text-white group-hover:translate-x-1 transition-all"
         >
           <ExternalLink size={18} />
@@ -91,12 +91,12 @@ export default function App() {
         <div className="h-1 w-12 bg-cyan-400 mx-auto rounded-full" />
       </div>
 
-      
-        {links.map((link, index) => (
-          <SocialButton key={index} item={link} />
-        ))}
-      
-      
+
+      {links.map((link, index) => (
+        <SocialButton key={index} item={link} />
+      ))}
+
+
       <style>{`
         .perspective-1000 {
           perspective: 1000px;

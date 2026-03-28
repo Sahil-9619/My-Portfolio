@@ -6,6 +6,8 @@ import Hero from "./components/Hero";
 import About from "./components/About";
 import ThemeToggle from "./components/ThemeToggle";
 import Nav from "./components/Nav";
+import Skills from './components/Skills'
+
 export default function Page() {
   const ref = useRef(null);
 
@@ -18,10 +20,11 @@ export default function Page() {
 
   return (
     <main ref={ref} className="relative bg-black">
-      <Nav/>
-      <ThemeToggle/>
+      <Nav />
+      <ThemeToggle />
       <Hero scrollProgress={smooth} />
       <About />
+      <Skills />
     </main>
   );
 }
