@@ -149,7 +149,6 @@ export default function App({ scrollProgress }: Props) {
       >
         {/* AMBIENT BACKGROUND */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-red-600/5 animate-pulse"></div>
 
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:60px_60px]" />
           <motion.div className="absolute inset-0" style={{ background: bgGradient }} />
