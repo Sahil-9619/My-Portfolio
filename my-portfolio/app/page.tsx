@@ -19,7 +19,7 @@ export default function Page() {
   });
 
   return (
-    <main ref={ref} className="relative bg-black">
+    <main ref={ref} className="relative">
       <Nav />
       <ThemeToggle />
       <Hero scrollProgress={smooth} />

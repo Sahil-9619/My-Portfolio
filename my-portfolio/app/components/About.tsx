@@ -19,31 +19,19 @@ export default function About() {
     <section
       id="about"
       style={{ isolation: "isolate" }}
-      className="relative z-[100] mt-20 mb-10 bg-[var(--bg)] min-h-screen pt-20 overflow-hidden"
+      className="relative z-[100] bg-black min-h-screen pt-20 overflow-hidden"
     >
 
       {/* BACKGROUND GLOW */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] blur-[120px] pointer-events-none opacity-30 bg-[radial-gradient(circle_at_center,var(--accent)_0,transparent_70%)]" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] pointer-events-none opacity-30" />
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10">
 
         {/* MAIN CONTENT */}
         <motion.div
           style={{ y: mainY, }}
-          className="lg:col-span-8  p-8 md:p-12 bg-[var(--card)] backdrop-blur-none overflow-hidden group relative"
-        >{/* Custom Borders */}
-          <div className="pointer-events-none absolute inset-0 rounded-[2.5rem]">
-
-            {/* Bottom Border (FULL) */}
-            <div className="absolute bottom-0 left-0 w-full h-[1px] bg-[var(--border)]" />
-
-            {/* Left Border (GRADIENT) */}
-            <div className="absolute left-0 top-0 h-full w-[1px] bg-gradient-to-b from-transparent via-[var(--accent-soft)] to-[var(--accent)]" />
-
-            {/* Right Border (GRADIENT) */}
-            <div className="absolute right-0 top-0 h-full w-[1px] bg-gradient-to-b from-transparent via-[var(--accent-soft)] to-[var(--accent)]" />
-
-          </div>
+          className="lg:col-span-8  p-8 md:p-12 backdrop-blur-none overflow-hidden group relative"
+        >
           <div className="flex flex-col h-full justify-between">
             <div className="space-y-6">
 
@@ -108,7 +96,7 @@ export default function About() {
           style={{ y: secondaryY, }}
           className="lg:col-span-4 flex flex-col gap-4"
         >
-          <div className="flex-1 rounded-[2.5rem] p-8 border border-[var(--border)] bg-[var(--card)] flex flex-col justify-between">
+          <div className="flex-1 rounded-[2.5rem] p-8  flex flex-col justify-between">
             <h3 className="text-sm font-mono uppercase tracking-widest text-[var(--accent)] opacity-60">
               Global_Reach
             </h3>
@@ -117,7 +105,7 @@ export default function About() {
               <SocialLinks />
             </div>
 
-            <div className="mt-8 p-6 rounded-3xl bg-[var(--bg-soft)] border border-[var(--border)]">
+            <div className="mt-8 p-6 rounded-3xl ">
               <p className="text-sm leading-relaxed text-[var(--text-muted)]">
                 Open for collaborations in high-scale React environments and Distributed Systems.
               </p>
