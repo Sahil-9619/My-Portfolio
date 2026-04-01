@@ -84,7 +84,9 @@ export default function App() {
     const [activeCategory, setActiveCategory] = useState("Frontend");
 
     return (
-        <div className="relative min-h-screen w-full bg-[#0a0a0a] text-zinc-100 font-sans selection:bg-[#ccff00] selection:text-black lg:cursor-none overflow-hidden flex flex-col">
+        <div
+            id="skills"
+            className="relative min-h-screen w-full bg-[#0a0a0a] text-zinc-100 font-sans selection:bg-[#ccff00] selection:text-black lg:cursor-none overflow-hidden flex flex-col">
 
             {/* Global CSS for Brutalist styles and animations */}
             <style dangerouslySetInnerHTML={{
