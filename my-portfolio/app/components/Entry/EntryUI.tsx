@@ -1,20 +1,18 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
-import { useGalaxy } from "./useGalaxy";
+import { Background } from "./Background";
 import Loader from "./Loader";
-import { themes } from '@/app/lib/theme';
+import { useTheme } from '@/app/hooks/useTheme';
+
 
 const Entry = () => {
     const [loadingProgress, setLoadingProgress] = useState(0);
     const [isLoaded, setIsLoaded] = useState(false);
     const [isEntering, setIsEntering] = useState(false);
-
-    const [currentTheme, setCurrentTheme] = useState("dark");
-    const activeTheme = themes[currentTheme];
-
+    const { theme } = useTheme();
     const canvasRef = useRef(null);
     const enteringRef = useRef(false); // Ref for Three.js loop access
-    useGalaxy(canvasRef, enteringRef);
+    Background(canvasRef, enteringRef);
     // --- Loader Logic ---
     useEffect(() => {
         let progress = 0;
@@ -47,7 +45,8 @@ const Entry = () => {
     };
 
     return (
-        <div className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-[#0a0f1a] to-[#02040a] text-white selection:bg-white selection:text-black font-sans">
+        <div
+            className="relative w-full h-screen overflow-hidden font-sans text-[var(--text-muted)] bg-gradient-to-br from-[#0a0f1a] to-[#02040a]">
             {/* ThreeJS Background Canvas */}
             <canvas ref={canvasRef} className="absolute inset-0 z-0 pointer-events-none" />
 
@@ -66,7 +65,6 @@ const Entry = () => {
                     <div className={`transition-transform duration-1000 delay-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${isLoaded ? 'translate-y-0' : '-translate-y-full'}`}>
                         <h2
                             className="text-lg font-bold tracking-widest uppercase"
-                            style={{ color: activeTheme["--text"] }}
                         >
                             S.K
                         </h2>
@@ -86,37 +84,22 @@ const Entry = () => {
                         <h1
                             className={`text-[12vw] leading-none font-black tracking-tighter uppercase transition-transform duration-[1200ms] delay-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-[120%] opacity-0'
                                 }`}
-                            style={{ color: activeTheme?.["--text"] }}
                         >
                             Sahil
                         </h1>
 
                     </div>
-                    <div className="overflow-hidden">
+                    <div className="">
                         <h1
-                            className={`text-[12vw] leading-none font-black tracking-tighter uppercase text-transparent bg-clip-text bg-gradient-to-b from-white to-neutral-700 transition-transform duration-[1200ms] delay-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-[120%] opacity-0'
+                            className={`text-[12vw] leading-none font-black tracking-tighter uppercase  transition-transform duration-[1200ms] delay-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-[120%] opacity-0'
                                 }`}
                         >
                             Kumar
                         </h1>
                     </div>
-                    <button
-                        onClick={() => {
-                            setCurrentTheme((prev) => {
-                                if (prev === "dark") return "light";
-                                if (prev === "light") return "rose";
-                                if (prev === "rose") return "nature";
-                                return "dark";
-                            });
-                            console.log("Current Theme:", currentTheme);
-                        }}
-                        className="pointer-events-auto fixed top-40 left-10 px-4 py-2 bg-white text-black"
-                    >
-                        Change Theme
-                    </button>
                     <div className="overflow-hidden mt-6">
                         <p
-                            className={`text-sm md:text-base tracking-[0.4em] text-neutral-400 uppercase transition-transform duration-[1200ms] delay-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
+                            className={`text-sm md:text-base tracking-[0.4em] text-[var(--text)] uppercase transition-transform duration-[1200ms] delay-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
                                 }`}
                         >
                             Creative Developer & Designer

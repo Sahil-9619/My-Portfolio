@@ -3,31 +3,35 @@
 const Loader = ({ loadingProgress, isLoaded }) => {
     return (
         <div
-            className={`absolute inset-0 z-50 flex flex-col items-center justify-center bg-[#0a0f1a] transition-transform duration-[1200ms] ease-[cubic-bezier(0.76,0,0.24,1)] ${isLoaded ? '-translate-y-full' : 'translate-y-0'
+            className={`fixed inset-0 z-[100] flex flex-col pointer-events-none overflow-hidden transition-opacity duration-1000 ${isLoaded ? "opacity-0" : "opacity-100"
                 }`}
         >
-            <div className="overflow-hidden">
-                <div className="flex items-end gap-4">
-                    <span className="text-sm tracking-[0.3em] text-neutral-500 mb-2">
-                        LOADING
-                    </span>
-
-                    <span className="text-6xl md:text-8xl font-black tracking-tighter w-32 text-right">
-                        {loadingProgress}
-                    </span>
-
-                    <span className="text-4xl text-neutral-600 mb-2">%</span>
-                </div>
+            {/* TOP */}
+            <div
+                className={`w-full h-1/2 bg-[#020202] flex items-end justify-center pb-2 transition-transform duration-[1200ms] ${isLoaded ? "-translate-y-full" : "translate-y-0"
+                    }`}
+            >
+                <span className="text-[10px] tracking-[0.5em] text-neutral-500 uppercase">
+                    Loading
+                </span>
             </div>
 
-            {/* Progress Bar */}
-            <div className="absolute bottom-10 w-full max-w-md px-10">
-                <div className="h-[2px] w-full bg-neutral-900 overflow-hidden">
-                    <div
-                        className="h-full bg-white transition-all duration-300 ease-out"
-                        style={{ width: `${loadingProgress}%` }}
-                    />
-                </div>
+            {/* BAR */}
+            <div className="w-full h-[1px] bg-neutral-900 absolute top-1/2">
+                <div
+                    className="h-full bg-white"
+                    style={{ width: `${loadingProgress}%` }}
+                />
+            </div>
+
+            {/* BOTTOM */}
+            <div
+                className={`w-full h-1/2 bg-[#020202] flex items-start justify-center pt-2 transition-transform duration-[1200ms] ${isLoaded ? "translate-y-full" : "translate-y-0"
+                    }`}
+            >
+                <span className="text-[10px] text-white">
+                    {loadingProgress}%
+                </span>
             </div>
         </div>
     );
