@@ -9,6 +9,7 @@ import Nav from "./components/Nav";
 import Skills from './components/Skills'
 import Experience from "./components/Experience";
 import Entry from "./components/Entry/EntryUI";
+
 export default function Page() {
   const ref = useRef(null);
 
