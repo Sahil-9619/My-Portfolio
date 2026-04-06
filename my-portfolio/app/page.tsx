@@ -9,8 +9,12 @@ import Nav from "./components/Nav";
 import Skills from './components/Skills'
 import Experience from "./components/Experience";
 import Entry from "./components/Entry/EntryUI";
+import Pointer from "./components/Pointer";
+import { useBackground } from "./components/Entry/Background";
 
 export default function Page() {
+  const canvasRef = useRef(null);
+  useBackground(canvasRef);
   const ref = useRef(null);
 
   const { scrollYProgress } = useScroll();
@@ -22,10 +26,17 @@ export default function Page() {
 
   return (
     <main ref={ref} className="relative">
+
+      {/* 🔥 GLOBAL 3D BACKGROUND */}
+      <canvas
+        ref={canvasRef}
+        className="fixed inset-0 -z-10 pointer-events-none"
+      />
+
+      <Pointer />
       <Entry />
       <Nav />
       <ThemeToggle />
-      <Hero scrollProgress={smooth} />
       <About />
       <Skills />
       <Experience />

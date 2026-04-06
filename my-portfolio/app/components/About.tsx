@@ -19,18 +19,18 @@ export default function About() {
     <section
       id="about"
       style={{ isolation: "isolate" }}
-      className="relative z-[100] bg-black min-h-screen pt-20 overflow-hidden"
+      className="relative bg-transparent min-h-screen pt-20 overflow-visible"
     >
 
       {/* BACKGROUND GLOW */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] pointer-events-none opacity-30" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] pointer-events-none opacity-30 mt-10" />
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 relative">
 
         {/* MAIN CONTENT */}
         <motion.div
           style={{ y: mainY, }}
-          className="lg:col-span-8  p-8 md:p-12 backdrop-blur-none overflow-hidden group relative"
+          className="lg:col-span-8 p-8 md:p-12 bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2.5rem] overflow-visible group relative"
         >
           <div className="flex flex-col h-full justify-between">
             <div className="space-y-6">
@@ -96,7 +96,7 @@ export default function About() {
           style={{ y: secondaryY, }}
           className="lg:col-span-4 flex flex-col gap-4"
         >
-          <div className="flex-1 rounded-[2.5rem] p-8  flex flex-col justify-between">
+          <div className="flex-1 rounded-[2.5rem] p-8 bg-transparent   border border-white/10 flex flex-col justify-between">
             <h3 className="text-sm font-mono uppercase tracking-widest text-[var(--accent)] opacity-60">
               Global_Reach
             </h3>
@@ -105,7 +105,7 @@ export default function About() {
               <SocialLinks />
             </div>
 
-            <div className="mt-8 p-6 rounded-3xl ">
+            <div className="mt-8 p-6 rounded-3xl bg-white/5 backdrop-blur-md border border-white/10">
               <p className="text-sm leading-relaxed text-[var(--text-muted)]">
                 Open for collaborations in high-scale React environments and Distributed Systems.
               </p>

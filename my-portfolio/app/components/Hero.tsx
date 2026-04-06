@@ -4,17 +4,16 @@ import React, { useState, useEffect } from "react";
 import {
   motion,
   useScroll,
-  useMotionTemplate,
   useTransform,
   useSpring,
   MotionValue
 } from "framer-motion";
 import {
-  Terminal, Database, LayoutTemplate, Menu, Globe, Clock, Zap,
+  Globe, Clock, Zap,
   ArrowUpRight
 } from "lucide-react";
 import { TextHoverEffect } from "@/components/ui/text-hover-effect";
-import Pointer from "../components/Pointer";
+
 import { useMouse } from "../hooks/useMouse";
 
 
@@ -22,7 +21,7 @@ type Props = {
   scrollProgress: MotionValue<number>;
 };
 
-export default function App({ scrollProgress }: Props) {
+export default function App() {
 
 
   const [clickHue, setClickHue] = useState(190);
@@ -30,10 +29,6 @@ export default function App({ scrollProgress }: Props) {
   const { mouseX, mouseY } = useMouse();
 
   const { scrollY, scrollYProgress } = useScroll();
-
-
-  const opacity = useTransform(scrollY, [0, 300], [1, 0.3]);
-
 
 
   const cardX = useSpring(
@@ -62,9 +57,7 @@ export default function App({ scrollProgress }: Props) {
     return () => clearInterval(timer);
   }, []);
 
-  // Parallax / Scroll Logic
 
-  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.5]);
   const heroY = useTransform(scrollY, [0, 800], [0, 100]);
 
   // Reduced sensitivity tilt springs
@@ -90,9 +83,6 @@ export default function App({ scrollProgress }: Props) {
     heroRotateY.set(0);
   };
 
-
-
-  const bgGradient = useMotionTemplate`radial-gradient(600px circle at ${mouseX}px ${mouseY}px, hsla(${clickHue}, 70%, 50%, 0.1), transparent 80%)`;
 
   // Staggered Animation Variants for Bento Grid
   const bentoContainer = {
@@ -121,42 +111,31 @@ export default function App({ scrollProgress }: Props) {
   };
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] selection:bg-[var(--accent-soft)] font-sans  will-change-scroll cursor-none">
-      <Pointer />
-      {/* --- NOISE TEXTURE OVERLAY --- */}
-      <div className="fixed inset-0 pointer-events-none z-[9999] opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150" />
+    <main className="min-h-screen bg-transparent text-[var(--text)] selection:bg-[var(--accent-soft)] font-sans  will-change-scroll cursor-none pb-12">
 
       {/* --- SCROLL PROGRESS BAR --- */}
       <motion.div
 
-        className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--accent)] via-[var(--accent)] to-[var(--accent)] z-[999] origin-left"
+        className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--accent)] via-[var(--accent)] to-[var(--accent)] origin-left"
         style={{ scaleX }}
       />
 
 
       {/* --- HERO SECTION --- */}
       <motion.section
-        style={{
-
-          opacity,
-
-        }}
-
-        className="sticky top-0 h-screen w-full flex items-center justify-center  bg-[var(--bg)] z-0 pt-24"
+        className="sticky top-0 min-h-screen w-full flex items-center justify-center bg-transparent pt-24 pb-20"
         onMouseMove={handleHeroMouseMove}
         onMouseLeave={handleHeroMouseLeave}
         onClick={() => setClickHue(prev => (prev + 45) % 360)}
       >
         {/* AMBIENT BACKGROUND */}
-        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 overflow-hidden ">
 
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:60px_60px]" />
-          <motion.div className="absolute inset-0" style={{ background: bgGradient }} />
         </div>
 
         <motion.div
-          style={{ opacity: heroOpacity, y: heroY }}
-          className="container mx-auto px-6 md:px-12 max-w-[1400px] relative z-10 w-full grid grid-cols-1 lg:grid-cols-2 items-center gap-16 will-change-transform"
+          style={{ y: heroY }}
+          className="container mx-auto px-6 md:px-12 max-w-[1400px] relative w-full grid grid-cols-1 lg:grid-cols-2 items-center gap-16 will-change-transform"
         >
           {/* LEFT: Name */}
           <div className="relative flex flex-col justify-center items-start group/name select-none">
@@ -212,7 +191,7 @@ group-hover/name:animate-[gradientMove_3s_linear_infinite]
             variants={bentoContainer}
             initial="hidden"
             animate="show"
-            className="relative z-10 w-full grid grid-cols-2 grid-rows-3 gap-4 h-[500px] will-change-transform"
+            className="relative w-full grid grid-cols-2 grid-rows-3 gap-4 h-[500px] will-change-transform"
           >
             <motion.div variants={bentoItem} className="col-span-2 bg-[var(--text)]/5 border border-[var(--border)] rounded-3xl p-8 backdrop-blur-none flex flex-col justify-between group overflow-hidden relative">
               <div className="absolute -right-4 -top-4 w-24 h-24 bg-[var(--accent)]/10 rounded-full blur-2xl group-hover:bg-[var(--accent)]/20 transition-all" />

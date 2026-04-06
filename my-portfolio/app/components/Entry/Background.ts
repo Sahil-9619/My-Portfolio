@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-export const Background = (canvasRef) => {
+export const useBackground = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
     useEffect(() => {
         let renderer, scene, camera: { position: { set: (arg0: any, arg1: any, arg2: any) => void; }; lookAt: (arg0: any, arg1: any, arg2: any) => void; }, animationId;
         let targetScroll = 0;
@@ -28,16 +28,15 @@ export const Background = (canvasRef) => {
                 0.1,
                 1000
             );
-
             renderer = new THREE.WebGLRenderer({
                 canvas: canvasRef.current,
-                alpha: true,
+                alpha: false, // 🔥 IMPORTANT
                 antialias: true,
             });
 
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
+            renderer.setClearColor(0x050505, 1);
             // 🔥 CURVE
             const curvePoints = [];
             for (let i = 0; i < 25; i++) {
