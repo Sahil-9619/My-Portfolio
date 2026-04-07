@@ -19,7 +19,7 @@ export default function About() {
     <section
       id="about"
       style={{ isolation: "isolate" }}
-      className="relative bg-transparent min-h-screen pt-20 overflow-visible"
+      className="relative bg-transparent min-h-screen pt-20 overflow-visible m-30"
     >
 
       {/* BACKGROUND GLOW */}
@@ -30,15 +30,15 @@ export default function About() {
         {/* MAIN CONTENT */}
         <motion.div
           style={{ y: mainY, }}
-          className="lg:col-span-8 p-8 md:p-12 bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2.5rem] overflow-visible group relative"
+          className="lg:col-span-8 p-8 md:p-12  overflow-visible group relative"
         >
           <div className="flex flex-col h-full justify-between">
             <div className="space-y-6">
 
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2  bg-[var(--accent)] animate-pulse" />
-                <span className="text-xs font-mono uppercase tracking-[0.3em] text-[var(--accent)] opacity-80">
-                  Identity.System
+                <span className="text-xl font-mono uppercase tracking-[0.3em] text-[var(--accent)] opacity-80">
+                  KNOW ABOUT ME
                 </span>
               </div>
 
@@ -96,10 +96,8 @@ export default function About() {
           style={{ y: secondaryY, }}
           className="lg:col-span-4 flex flex-col gap-4"
         >
-          <div className="flex-1 rounded-[2.5rem] p-8 bg-transparent   border border-white/10 flex flex-col justify-between">
-            <h3 className="text-sm font-mono uppercase tracking-widest text-[var(--accent)] opacity-60">
-              Global_Reach
-            </h3>
+          <div className="flex-1 rounded-[2.5rem] p-8 bg-transparent   flex flex-col justify-between">
+
 
             <div className="space-y-3 mt-8">
               <SocialLinks />

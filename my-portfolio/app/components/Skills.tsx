@@ -33,11 +33,11 @@ const CustomCursor = () => {
     return (
         <>
             <div
-                className="pointer-events-none fixed left-0 top-0 z-[100] h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#ccff00] mix-blend-difference transition-transform duration-75 ease-out will-change-transform"
+                className="pointer-events-none fixed left-0 top-0  h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#ccff00] mix-blend-difference transition-transform duration-75 ease-out will-change-transform"
                 style={{ transform: `translate(${position.x}px, ${position.y}px) scale(${isHovering ? 0 : 1})` }}
             />
             <div
-                className="pointer-events-none fixed left-0 top-0 z-[99] h-12 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#ccff00] transition-all duration-300 ease-out will-change-transform"
+                className="pointer-events-none fixed left-0 top-0  h-12 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#ccff00] transition-all duration-300 ease-out will-change-transform"
                 style={{
                     transform: `translate(${position.x}px, ${position.y}px) scale(${isHovering ? 1.5 : 0})`,
                     opacity: isHovering ? 1 : 0
@@ -86,7 +86,7 @@ export default function App() {
     return (
         <div
             id="skills"
-            className="relative min-h-screen w-full bg-[#0a0a0a] text-zinc-100 font-sans selection:bg-[#ccff00] selection:text-black lg:cursor-none overflow-hidden flex flex-col">
+            className="relative min-h-screen w-full  text-[--text] font-sans selection:bg-[#ccff00] selection:text-black lg:cursor-none overflow-hidden flex flex-col">
 
             {/* Global CSS for Brutalist styles and animations */}
             <style dangerouslySetInnerHTML={{
@@ -97,7 +97,7 @@ export default function App() {
         }
         .text-stroke-active {
           -webkit-text-stroke: 1px transparent;
-          color: #f4f4f5;
+          color: #b1e8e8;
         }
         
         @keyframes slideUpFade {
@@ -125,27 +125,22 @@ export default function App() {
           animation: marquee 30s linear infinite;
         }
         
-        /* Subtle noise texture */
-        .bg-noise {
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
       `}} />
-            {/* Noise Overlay */}
-            <div className="pointer-events-none absolute inset-0 z-0 bg-noise opacity-[0.03] mix-blend-overlay"></div>
+
 
             {/* Massive Background Marquee Text */}
-            <div className="pointer-events-none absolute left-0 top-1/2 z-0 flex w-[200vw] -translate-y-1/2 opacity-[0.05]">
+            <div className="pointer-events-none absolute left-0 top-1/2 flex w-[200vw] -translate-y-1/2 opacity-[0.05]">
                 <div className="animate-marquee whitespace-nowrap text-[25vw] font-black uppercase tracking-tighter text-white">
                     {activeCategory} • {activeCategory} • {activeCategory} • {activeCategory} •
                 </div>
             </div>
 
             {/* Main Content Split Screen */}
-            <main className="relative z-10 flex flex-1 flex-col lg:flex-row h-full overflow-hidden">
+            <main className="relative flex flex-1 flex-col lg:flex-row h-full overflow-hidden">
 
                 {/* Left Side: Kinetic Typography Navigation */}
-                <div className="flex w-full flex-col justify-center border-b border-zinc-800/50 p-6 lg:w-1/2 lg:border-b-0 lg:border-r lg:p-12 xl:p-24 bg-[#0a0a0a]/50">
-                    <p className="mb-8 text-sm font-mono uppercase tracking-widest text-[#ccff00]">
+                <div className="flex w-full flex-col justify-center border-b border-zinc-800/50 p-6 lg:w-1/2 lg:border-b-0 lg:border-r lg:p-12 xl:p-24">
+                    <p className="mb-8 text-sm font-mono uppercase tracking-widest">
                         [ Select Domain ]
                     </p>
                     <div className="flex flex-col items-start gap-4 lg:gap-8">
@@ -168,7 +163,7 @@ export default function App() {
                 </div>
 
                 {/* Right Side: Brutalist Data Cards (Scrollable on small screens) */}
-                <div className="flex w-full flex-col p-6 lg:w-1/2 lg:p-12 xl:p-24 bg-zinc-900/20 backdrop-blur-sm overflow-y-auto">
+                <div className="flex w-full flex-col p-6 lg:w-1/2 lg:p-12 xl:p-24  overflow-y-auto">
                     <div className="mb-12 max-w-md shrink-0">
                         <h2 className="mb-4 text-3xl font-bold tracking-tight text-white uppercase">
                             {activeCategory} Ecosystem
@@ -186,11 +181,11 @@ export default function App() {
                         {skillCategories[activeCategory].map((skill, index) => (
                             <div
                                 key={skill.name}
-                                className="hover-trigger group relative flex flex-col justify-between border border-zinc-800 bg-zinc-950/80 p-6 md:p-8 transition-all duration-300 hover:-translate-y-2 hover:bg-[#ccff00] hover:shadow-[0_20px_40px_-15px_rgba(204,255,0,0.2)]"
+                                className="hover-trigger group relative flex flex-col justify-between border border-zinc-800  bg-transparent p-6 md:p-8 transition-all duration-300 hover:-translate-y-2 hover:bg-[#ccff00] hover:shadow-[0_20px_40px_-15px_rgba(204,255,0,0.2)]"
                             >
                                 {/* Top Section */}
                                 <div className="mb-12 flex items-start justify-between">
-                                    <skill.icon className="h-8 w-8 text-zinc-500 transition-colors duration-300 group-hover:text-black" strokeWidth={1.5} />
+                                    <skill.icon className="h-8 w-8 text-[--text] duration-300 group-hover:text-[--accent]" strokeWidth={1.5} />
                                     <span className="font-mono text-xs text-zinc-600 transition-colors duration-300 group-hover:text-black/60">
                                         {String(index + 1).padStart(2, '0')}
                                     </span>

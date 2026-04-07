@@ -6,7 +6,7 @@ export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
 
   return (
-    <div className="fixed right-6 top-2 z-[9999] flex gap-2 bg-[var(--card)] border border-[var(--border)] p-2 rounded-xl backdrop-blur-xl">
+    <div className="fixed z-50 right-6 top-2  flex gap-2 bg-transparent border border-[var(--border)] p-2 rounded-xl backdrop-blur-sm">
 
       <button
         onClick={() => setTheme("dark")}

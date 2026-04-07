@@ -106,7 +106,7 @@ const StackCard = ({ exp, index, totalCards, scrollYProgress }) => {
                 filter: blur,
                 zIndex: index,
             }}
-            className={`absolute inset-0 flex flex-col justify-between rounded-[2rem] border bg-black/40 bg-gradient-to-br ${exp.theme} ${exp.border} p-8 shadow-2xl backdrop-blur-xl overflow-hidden`}
+            className={`absolute inset-0 flex flex-col justify-between rounded-[2rem] border  bg-gradient-to-br ${exp.theme} ${exp.border} p-8 shadow-2xl backdrop-blur-xl overflow-hidden`}
         >
             {/* content same */}
             <div className="flex justify-between items-start w-full">
@@ -124,7 +124,7 @@ const StackCard = ({ exp, index, totalCards, scrollYProgress }) => {
                 </h3>
             </div>
 
-            <div className="relative z-10">
+            <div className="relative">
                 <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">
                     {exp.company}
                 </h2>
@@ -168,13 +168,13 @@ export default function ExperienceSection() {
     return (
         // The container is super tall to allow for a long scroll duration
         // 3 cards = ~300vh - 400vh for breathing room
-        <section ref={containerRef} className="relative h-[500vh] bg-[#050505] text-white selection:bg-white/30 font-sans">
+        <section ref={containerRef} className="relative h-[500vh] selection:bg-white/30 font-sans">
 
             {/* Sticky wrapper: This stays pinned to the screen while you scroll */}
             <div className="sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden px-6 lg:px-12">
 
                 {/* Header Indicator */}
-                <div className="absolute top-10 left-6 lg:left-12 flex items-center gap-4 z-50">
+                <div className="absolute top-10 left-6 lg:left-12 flex items-center gap-4">
                     <div className="flex gap-1.5">
                         {EXPERIENCES.map((_, i) => (
                             <motion.div
