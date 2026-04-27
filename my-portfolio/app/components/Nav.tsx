@@ -93,7 +93,7 @@ const Nav = () => {
       <motion.div
         variants={{ visible: { y: 0, opacity: 1 }, hidden: { y: "-150%", opacity: 0 } }}
         animate={hidden ? "hidden" : "visible"}
-        className="fixed top-6 inset-x-0 mx-auto max-w-fit z-[999] px-4"
+        className="fixed top-3 md:top-6 left-2 sm:left-3 md:left-0 right-auto md:inset-x-0 mx-0 md:mx-auto max-w-fit z-[999] px-0 md:px-4"
       >
         <div className="relative rounded-full p-[1.5px] overflow-hidden group">
           <motion.div
@@ -102,7 +102,7 @@ const Nav = () => {
             className="absolute inset-[-400%] bg-[conic-gradient(from_0deg,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff,#ff0000)] opacity-60 blur-[2px]"
           />
 
-          <nav className="relative z-10 flex items-center gap-6 px-4 py-3 md:px-6 rounded-full bg-black/95 backdrop-blur-xl shadow-2xl">
+          <nav className="relative z-10 flex items-center gap-3 md:gap-6 px-3 py-2 md:px-6 md:py-3 rounded-full bg-black/95 backdrop-blur-xl shadow-2xl">
             <button
               onClick={() => {
                 window.scrollTo({ top: 0, behavior: "smooth" });

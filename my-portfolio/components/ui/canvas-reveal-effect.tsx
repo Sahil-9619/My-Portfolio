@@ -13,7 +13,7 @@ export const CanvasRevealEffect = ({
   showGradient = true,
 }: {
   /**
-   * 0.1 - slower
+   * 0.1 - slowera
    * 1.0 - faster
    */
   animationSpeed?: number;

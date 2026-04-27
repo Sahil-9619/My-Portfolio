@@ -2,8 +2,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Github, Linkedin, ArrowRight } from "lucide-react";
 import Lottie from "lottie-react";
-import linkedin from "../../public/linkedin.json";
-import github from "../../public/github.json";
+import linkedin from "../../public/icons/linkedin.json";
+import github from "../../public/icons/github.json";
 
 
 const LeetCodeIcon = ({ size = 25, className = "" }) => (

@@ -5,18 +5,20 @@ export const themes = {
     "--text-muted": "#a3a3a3",
     "--card": "rgba(255,255,255,0.04)",
     "--border": "rgba(255,255,255,0.1)",
-    "--accent": "#08d1dbf9",
-    "--accent-soft": "rgba(249,115,22,0.15)",
+    "--accent": "#08d1db",
+    "--accent-soft": "rgba(8,209,219,0.15)",
   },
-  light: {
-    "--bg": "#ffffff",
-    "--text": "#111111",
-    "--text-muted": "#6b7280",
-    "--card": "rgba(0,0,0,0.04)",
-    "--border": "rgba(0,0,0,0.1)",
-    "--accent": "#2563eb",
-    "--accent-soft": "rgba(37,99,235,0.15)",
+
+  neon: {
+    "--bg": "#030712",
+    "--text": "#e0f2fe",
+    "--text-muted": "#7dd3fc",
+    "--card": "rgba(14,165,233,0.06)",
+    "--border": "rgba(14,165,233,0.18)",
+    "--accent": "#0ea5e9",
+    "--accent-soft": "rgba(14,165,233,0.18)",
   },
+
   rose: {
     "--bg": "#0f0a0a",
     "--text": "#ffe4e6",
@@ -26,6 +28,7 @@ export const themes = {
     "--accent": "#f43f5e",
     "--accent-soft": "rgba(244,63,94,0.15)",
   },
+
   nature: {
     "--bg": "#0a0f0a",
     "--text": "#d1fae5",

@@ -15,11 +15,9 @@ import {
 import { TextHoverEffect } from "@/components/ui/text-hover-effect";
 
 import { useMouse } from "../hooks/useMouse";
-
-
-type Props = {
-  scrollProgress: MotionValue<number>;
-};
+import Lottie from "lottie-react";
+import it from '../../public/icons/it.json';
+import globe from '../../public/icons/globe.json';
 
 export default function App() {
 
@@ -111,7 +109,7 @@ export default function App() {
   };
 
   return (
-    <main className="min-h-screen bg-transparent text-[var(--text)] selection:bg-[var(--accent-soft)] font-sans  will-change-scroll cursor-none pb-12">
+    <main className="relative min-h-screen bg-transparent text-[var(--text)] selection:bg-[var(--accent-soft)] font-sans pb-10 md:pb-12 overflow-x-hidden">
 
       {/* --- SCROLL PROGRESS BAR --- */}
       <motion.div
@@ -123,7 +121,7 @@ export default function App() {
 
       {/* --- HERO SECTION --- */}
       <motion.section
-        className="sticky top-0 min-h-screen w-full flex items-center justify-center bg-transparent pt-24 pb-20"
+        className="relative min-h-screen w-full flex items-start md:items-center justify-center bg-transparent pt-24 sm:pt-28 md:pt-24 pb-10 md:pb-20"
         onMouseMove={handleHeroMouseMove}
         onMouseLeave={handleHeroMouseLeave}
         onClick={() => setClickHue(prev => (prev + 45) % 360)}
@@ -135,15 +133,15 @@ export default function App() {
 
         <motion.div
           style={{ y: heroY }}
-          className="container mx-auto px-6 md:px-12 max-w-[1400px] relative w-full grid grid-cols-1 lg:grid-cols-2 items-center gap-16 will-change-transform"
+          className="container mx-auto px-4 sm:px-6 md:px-12 xl:px-16 max-w-[1500px] relative w-full grid grid-cols-1 lg:grid-cols-2 items-center gap-10 md:gap-16 xl:gap-20 will-change-transform"
         >
           {/* LEFT: Name */}
-          <div className="relative flex flex-col justify-center items-start group/name select-none">
+          <div className="relative flex flex-col justify-center items-start group/name select-none pt-2 md:pt-0">
             <div className="overflow-hidden">
               <motion.h1
                 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                 className="
-text-[14vw] lg:text-[10vw] font-black leading-[0.8] tracking-tighter uppercase
+text-[18vw] sm:text-[15vw] lg:text-[10vw] font-black leading-[0.8] tracking-tighter uppercase
 bg-[linear-gradient(to_right,#ffffff,#ffffff)]
 bg-clip-text text-transparent
 transition-all duration-700
@@ -164,14 +162,14 @@ group-hover/name:animate-[gradientMove_3s_linear_infinite]
                 delay: 0.2,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="overflow-hidden mt-2 h-[14vw] lg:h-[10vw] flex items-center"
+              className="overflow-hidden mt-1 md:mt-2 h-[18vw] sm:h-[15vw] lg:h-[10vw] flex items-center"
             >
               <TextHoverEffect text="KUMAR" />
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6 }}
-              className="mt-10 flex flex-col gap-4"
+              className="mt-6 md:mt-10 flex flex-col gap-3 md:gap-4"
             >
               <div className="flex items-center gap-3">
                 <div className="w-10 h-[1px] bg-[var(--accent)]" />
@@ -191,24 +189,41 @@ group-hover/name:animate-[gradientMove_3s_linear_infinite]
             variants={bentoContainer}
             initial="hidden"
             animate="show"
-            className="relative w-full grid grid-cols-2 grid-rows-3 gap-4 h-[500px] will-change-transform"
+            className="relative w-full grid grid-cols-2 grid-rows-3 gap-3 md:gap-4 h-[300px] sm:h-[360px] md:h-[430px] lg:h-[450px] xl:h-[500px] pt-8 md:pt-10"
           >
             <motion.div variants={bentoItem} className="col-span-2 bg-[var(--text)]/5 border border-[var(--border)] rounded-3xl p-8 backdrop-blur-none flex flex-col justify-between group overflow-hidden relative">
               <div className="absolute -right-4 -top-4 w-24 h-24 bg-[var(--accent)]/10 rounded-full blur-2xl group-hover:bg-[var(--accent)]/20 transition-all" />
-              <div className="flex justify-between items-start">
-                <Zap className="text-[var(--accent)]" size={24} />
-                <span className="text-[10px] uppercase tracking-widest text-[var(--text-muted)] font-bold">Status</span>
+              <div className="flex items-center gap-3">
+                {it && (
+                  <Lottie
+                    animationData={it}
+                    loop={true}
+                    style={{ width: 42, height: 42, pointerEvents: "none" }}
+                  />
+                )}
+
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-[var(--text)] leading-none">
+                  1 YEARS
+                </h3>
               </div>
+
               <div>
-                <h3 className="text-4xl font-black text-[var(--text)]">1 YEARS</h3>
-                <p className="text-xs text-[var(--text-muted)] mt-1 uppercase tracking-widest">Of Engineering Excellence</p>
+                <p className="text-[10px] sm:text-xs text-[var(--text-muted)] mt-2 uppercase tracking-[0.2em] leading-relaxed">
+                  Of Experience In Web Development
+                </p>
               </div>
             </motion.div>
 
             <motion.div variants={bentoItem} className="bg-[var(--card)] border border-[var(--border)] rounded-3xl p-6 backdrop-blur-none flex flex-col justify-between">
               <div className="flex items-center gap-2 text-[var(--text-muted)]">
-                <Globe size={14} />
-                <span className="text-[10px] uppercase font-bold tracking-tighter">Patna, India</span>
+                {globe && (
+                  <Lottie
+                    animationData={globe}
+                    loop={true}
+                    style={{ width: 20, height: 20, pointerEvents: "none" }}
+                  />
+                )}
+                <span className="text-[10px] uppercase font-bold tracking-tighter">Patna, Bihar, India</span>
               </div>
               <div className="mt-4">
                 <div className="flex items-center gap-2 mb-1">

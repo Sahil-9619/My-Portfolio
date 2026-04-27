@@ -32,36 +32,18 @@ const Entry = () => {
         return () => clearInterval(interval);
     }, []);
 
-    // --- Handlers ---
-    const handleEnterClick = () => {
-        setIsEntering(true);
-        enteringRef.current = true;
-
-        // Here you would typically trigger Next.js Router:
-        // setTimeout(() => router.push('/portfolio'), 1500);
-    };
 
     return (
-        <div
-            className="relative w-full h-screen overflow-hidden font-sans text-[var(--text-muted)] bg-transparent">
+        <div className="relative w-full min-h-screen overflow-x-hidden font-sans text-[var(--text-muted)] bg-transparent">
             <Loader
                 loadingProgress={loadingProgress}
                 isLoaded={isLoaded}
             />
+
             {isLoaded && (
-                <div className="relative  w-full h-full">
-                    <Hero scrollProgress={undefined as any} />
+                <div className="relative w-full min-h-screen">
+                    <Hero />
                 </div>
-            )}
-
-            {/* Bottom Area & Enter Button */}
-
-            {isLoaded && (
-                <>
-                    <div className="relative  w-full h-full">
-                        <Hero scrollProgress={undefined as any} />
-                    </div>
-                </>
             )}
         </div>
     );

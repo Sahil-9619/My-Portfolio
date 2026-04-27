@@ -4,7 +4,17 @@ import { useEffect } from "react";
 
 export const useBackground = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
     useEffect(() => {
-        let renderer, scene, camera: { position: { set: (arg0: any, arg1: any, arg2: any) => void; }; lookAt: (arg0: any, arg1: any, arg2: any) => void; }, animationId;
+        let renderer, scene, camera, animationId;
+
+        const handleResize = () => {
+            if (!renderer || !camera) return;
+
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        };
         let targetScroll = 0;
         let currentScroll = 0;
         let mouseX = 0;
@@ -161,6 +171,10 @@ export const useBackground = (canvasRef: React.RefObject<HTMLCanvasElement>) => 
             };
 
             animate();
+
+            window.addEventListener("resize", handleResize);
+            handleResize();
+
         };
 
         if (!window.THREE) {
@@ -172,5 +186,10 @@ export const useBackground = (canvasRef: React.RefObject<HTMLCanvasElement>) => 
         } else {
             initThreeJS();
         }
+        return () => {
+            cancelAnimationFrame(animationId);
+            window.removeEventListener("resize", handleResize);
+        };
+
     }, []);
 };
