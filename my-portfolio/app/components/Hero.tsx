@@ -25,6 +25,7 @@ export default function App() {
   const [clickHue, setClickHue] = useState(190);
   const [time, setTime] = useState("");
   const { mouseX, mouseY } = useMouse();
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   const { scrollY, scrollYProgress } = useScroll();
 
@@ -55,8 +56,6 @@ export default function App() {
     return () => clearInterval(timer);
   }, []);
 
-
-  const heroY = useTransform(scrollY, [0, 800], [0, 100]);
 
   // Reduced sensitivity tilt springs
   const heroRotateX = useSpring(0, { stiffness: 35, damping: 20 });
@@ -121,7 +120,7 @@ export default function App() {
 
       {/* --- HERO SECTION --- */}
       <motion.section
-        className="relative min-h-screen w-full flex items-start md:items-center justify-center bg-transparent pt-24 sm:pt-28 md:pt-24 pb-10 md:pb-20"
+        className="relative min-h-screen w-full flex items-start md:items-center justify-center bg-transparent pt-24 sm:pt-28 md:pt-24 pb-4 md:pb-8"
         onMouseMove={handleHeroMouseMove}
         onMouseLeave={handleHeroMouseLeave}
         onClick={() => setClickHue(prev => (prev + 45) % 360)}
@@ -132,8 +131,7 @@ export default function App() {
         </div>
 
         <motion.div
-          style={{ y: heroY }}
-          className="container mx-auto px-4 sm:px-6 md:px-12 xl:px-16 max-w-[1500px] relative w-full grid grid-cols-1 lg:grid-cols-2 items-center gap-10 md:gap-16 xl:gap-20 will-change-transform"
+          className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-10 lg:px-12 max-w-[1500px] relative w-full grid grid-cols-1 lg:grid-cols-2 items-center gap-10 md:gap-16 xl:gap-20 "
         >
           {/* LEFT: Name */}
           <div className="relative flex flex-col justify-center items-start group/name select-none pt-2 md:pt-0">
@@ -141,7 +139,7 @@ export default function App() {
               <motion.h1
                 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                 className="
-text-[18vw] sm:text-[15vw] lg:text-[10vw] font-black leading-[0.8] tracking-tighter uppercase
+text-[13vw] sm:text-[11vw] md:text-[9vw] lg:text-[7vw] font-black leading-[0.8] tracking-tighter uppercase
 bg-[linear-gradient(to_right,#ffffff,#ffffff)]
 bg-clip-text text-transparent
 transition-all duration-700
@@ -162,7 +160,7 @@ group-hover/name:animate-[gradientMove_3s_linear_infinite]
                 delay: 0.2,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="overflow-hidden mt-1 md:mt-2 h-[18vw] sm:h-[15vw] lg:h-[10vw] flex items-center"
+              className="overflow-hidden mt-1 md:mt-2 h-[13vw] sm:h-[11vw] md:h-[9vw] lg:h-[7vw] flex items-center"
             >
               <TextHoverEffect text="KUMAR" />
             </motion.div>
@@ -185,13 +183,19 @@ group-hover/name:animate-[gradientMove_3s_linear_infinite]
 
           {/* RIGHT: BENTO GRID WITH LOADING STAGGER */}
           <motion.div
-            style={{ rotateX: heroRotateX, rotateY: heroRotateY, x: cardX, y: cardY, transformStyle: "preserve-3d" }}
+            style={{
+              rotateX: heroRotateX,
+              rotateY: heroRotateY,
+              x: isMobile ? 0 : cardX,
+              y: isMobile ? 0 : cardY,
+              transformStyle: "preserve-3d"
+            }}
             variants={bentoContainer}
             initial="hidden"
             animate="show"
-            className="relative w-full grid grid-cols-2 grid-rows-3 gap-3 md:gap-4 h-[300px] sm:h-[360px] md:h-[430px] lg:h-[450px] xl:h-[500px] pt-8 md:pt-10"
+            className="relative w-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-3 md:gap-4 min-h-[260px] sm:min-h-[320px] md:min-h-[380px] lg:min-h-[420px] lg:h-[450px] xl:h-[500px] pt-8 md:pt-10"
           >
-            <motion.div variants={bentoItem} className="col-span-2 bg-[var(--text)]/5 border border-[var(--border)] rounded-3xl p-8 backdrop-blur-none flex flex-col justify-between group overflow-hidden relative">
+            <motion.div variants={bentoItem} className="col-span-2 bg-[var(--text)]/5 border border-[var(--border)] rounded-3xl p-4 sm:p-6 md:p-8 backdrop-blur-none flex flex-col justify-between group overflow-hidden relative">
               <div className="absolute -right-4 -top-4 w-24 h-24 bg-[var(--accent)]/10 rounded-full blur-2xl group-hover:bg-[var(--accent)]/20 transition-all" />
               <div className="flex items-center gap-3">
                 {it && (

@@ -6,8 +6,7 @@ import Hero from '../Hero';
 const Entry = () => {
     const [loadingProgress, setLoadingProgress] = useState(0);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [isEntering, setIsEntering] = useState(false);
-    const enteringRef = useRef(false); // Ref for Three.js loop access
+
     // --- Loader Logic ---
     useEffect(() => {
         let progress = 0;
@@ -34,14 +33,14 @@ const Entry = () => {
 
 
     return (
-        <div className="relative w-full min-h-screen overflow-x-hidden font-sans text-[var(--text-muted)] bg-transparent">
+        <div className="relative w-full min-h-[100svh] overflow-x-hidden font-sans text-[var(--text-muted)] bg-transparent">
             <Loader
                 loadingProgress={loadingProgress}
                 isLoaded={isLoaded}
             />
 
             {isLoaded && (
-                <div className="relative w-full min-h-screen">
+                <div className="relative w-full">
                     <Hero />
                 </div>
             )}

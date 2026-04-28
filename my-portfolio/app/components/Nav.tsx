@@ -93,7 +93,7 @@ const Nav = () => {
       <motion.div
         variants={{ visible: { y: 0, opacity: 1 }, hidden: { y: "-150%", opacity: 0 } }}
         animate={hidden ? "hidden" : "visible"}
-        className="fixed top-3 md:top-6 left-2 sm:left-3 md:left-0 right-auto md:inset-x-0 mx-0 md:mx-auto max-w-fit z-[999] px-0 md:px-4"
+        className="fixed top-3 md:top-6 left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 md:inset-x-0 mx-auto max-w-fit z-[999] px-2 md:px-4"
       >
         <div className="relative rounded-full p-[1.5px] overflow-hidden group">
           <motion.div

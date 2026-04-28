@@ -2,7 +2,6 @@
 
 import React, { useRef } from "react";
 import { useScroll, useSpring } from "framer-motion";
-import Hero from "./components/Hero";
 import About from "./components/About";
 import ThemeToggle from "./components/ThemeToggle";
 import Nav from "./components/Nav";
@@ -13,7 +12,7 @@ import Pointer from "./components/Pointer";
 import { useBackground } from "./components/Entry/Background";
 
 export default function Page() {
-  const canvasRef = useRef(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null!);
   useBackground(canvasRef);
   const ref = useRef(null);
 

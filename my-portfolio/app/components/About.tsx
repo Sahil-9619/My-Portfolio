@@ -10,29 +10,22 @@ import SocialLinks from "./SocialLinks";
 
 export default function About() {
 
-  const { scrollYProgress } = useScroll();
-  const mainY = useTransform(scrollYProgress, [0, 0.3], [60, 0]);
-  const secondaryY = useTransform(scrollYProgress, [0, 0.3], [120, 0]);
-
 
   return (
     <section
       id="about"
       style={{ isolation: "isolate" }}
-      className="relative bg-transparent min-h-screen pt-24 md:pt-28 overflow-visible px-4 sm:px-6 md:px-10 lg:px-12 xl:px-16"
+      className="relative bg-transparent pt-30 md:pt-5 overflow-visible px-4 sm:px-6 md:px-10 lg:px-12 xl:px-16"
     >
 
-      {/* BACKGROUND GLOW */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] pointer-events-none opacity-30 mt-10" />
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-6 xl:gap-8 relative items-start">
-
+      <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-6 xl:gap-8 relative items-start">
         {/* MAIN CONTENT */}
         <motion.div
-          style={{ y: mainY, }}
-          className="lg:col-span-8 p-5 sm:p-7 md:p-10 xl:p-12 overflow-visible group relative"
+
+          className="lg:col-span-8 w-full max-w-[680px] mx-auto p-5 sm:p-7 md:p-10 xl:p-12 overflow-visible group relative"
         >
-          <div className="flex flex-col h-full justify-between">
+          <div className="flex flex-col h-full justify-between items-center text-center lg:items-start lg:text-left">
             <div className="space-y-6">
 
               <div className="flex items-center gap-2">
@@ -93,8 +86,7 @@ export default function About() {
 
         {/* LINKS */}
         <motion.div
-          style={{ y: secondaryY, }}
-          className="lg:col-span-4 flex flex-col gap-4 mt-2 lg:mt-0"
+          className="lg:col-span-4 w-full max-w-[420px] mx-auto flex flex-col gap-4 mt-6 lg:mt-0"
         >
           <div className="flex-1 rounded-[2rem] md:rounded-[2.5rem] p-5 sm:p-7 md:p-8 bg-transparent flex flex-col justify-between">
 
