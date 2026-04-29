@@ -10,10 +10,10 @@ const CustomCursor = () => {
     const [isHovering, setIsHovering] = useState(false);
 
     useEffect(() => {
-        const updateCursor = (e) => setPosition({ x: e.clientX, y: e.clientY });
+        const updateCursor = (e: MouseEvent) => setPosition({ x: e.clientX, y: e.clientY });
 
-        const updateHoverState = (e) => {
-            const target = e.target;
+        const updateHoverState = (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
             if (target.closest('button') || target.closest('.hover-trigger')) {
                 setIsHovering(true);
             } else {
@@ -81,7 +81,7 @@ const skillCategories = {
 
 // --- Main App Component ---
 export default function App() {
-    const [activeCategory, setActiveCategory] = useState("Frontend");
+    const [activeCategory, setActiveCategory] = useState<keyof typeof skillCategories>("Frontend");
 
     return (
         <div
@@ -147,7 +147,7 @@ export default function App() {
                         {Object.keys(skillCategories).map((category) => (
                             <button
                                 key={category}
-                                onClick={() => setActiveCategory(category)}
+                                onClick={() => setActiveCategory(category as keyof typeof skillCategories)}
                                 className={`hover-trigger group relative text-5xl font-black uppercase tracking-tighter transition-all duration-500 sm:text-6xl md:text-7xl lg:text-8xl xl:text-8xl ${activeCategory === category
                                     ? 'text-stroke-active translate-x-4 lg:translate-x-8'
                                     : 'text-stroke hover:text-stroke-active hover:text-zinc-500'

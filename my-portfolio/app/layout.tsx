@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   title: "Sahil Kumar",
   description: "This is my Portfolio",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/s.png",
   },
 };
 

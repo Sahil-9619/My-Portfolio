@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { motion, useScroll, useTransform, useSpring, useMotionValueEvent, AnimatePresence } from "framer-motion";
-import { Calendar, MapPin, TerminalSquare, ArrowDown } from "lucide-react";
+import { TerminalSquare, ArrowDown } from "lucide-react";
 
 // --- MOCK DATA ---
 const EXPERIENCES = [
@@ -59,7 +59,7 @@ const EXPERIENCES = [
 
 // --- STACKED CARD COMPONENT ---
 // Mathematically calculates its position, scale, and opacity based on scroll progress
-const StackCard = ({ exp, index, totalCards, scrollYProgress }) => {
+const StackCard = ({ exp, index, totalCards, scrollYProgress }: { exp: typeof EXPERIENCES[0]; index: number; totalCards: number; scrollYProgress: any }) => {
     const section = 1 / totalCards;
 
     const start = index * section;
@@ -141,10 +141,14 @@ export default function ExperienceSection() {
     const containerRef = useRef(null);
 
     // Track scroll within the 400vh container
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start start", "end end"]
-    });
+    const { scrollYProgress } = useScroll(
+        containerRef.current
+            ? {
+                target: containerRef,
+                offset: ["start start", "end end"]
+            }
+            : undefined
+    );
 
     // Make scrolling feel buttery smooth
     const springProgress = useSpring(scrollYProgress, {
@@ -168,10 +172,8 @@ export default function ExperienceSection() {
     return (
         // The container is super tall to allow for a long scroll duration
         // 3 cards = ~300vh - 400vh for breathing room
-        <section ref={containerRef} className="relative h-[500vh] selection:bg-white/30 font-sans">
-
-            {/* Sticky wrapper: This stays pinned to the screen while you scroll */}
-            <div className="sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden px-6 lg:px-12">
+        <section className="relative h-[500vh]">
+            <div ref={containerRef} className="sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden px-6 lg:px-12">
 
                 {/* Header Indicator */}
                 <div className="absolute top-10 left-6 lg:left-12 flex items-center gap-4">

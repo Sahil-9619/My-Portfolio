@@ -5,6 +5,15 @@ import Lottie from "lottie-react";
 import linkedin from "../../public/icons/linkedin.json";
 import github from "../../public/icons/github.json";
 
+interface SocialLink {
+  name: string;
+  icon: React.ReactNode;
+  href: string;
+  color1: string;
+  color2: string;
+  color3: string;
+}
+
 
 const LeetCodeIcon = ({ size = 25, className = "" }) => (
   <svg
@@ -39,12 +48,11 @@ const LinkedInIcon = () => {
       onMouseLeave={() => setPlay(false)}
     >
       <Lottie
-        key={play}
+        key={`${play}`}
         animationData={linkedin}
         loop={true}
         autoplay={true}
         initialSegment={[0, 250]}
-        speed={1}
       />
     </div>
   );
@@ -60,12 +68,11 @@ const GithubIcon = () => {
       onMouseLeave={() => setPlay(false)}
     >
       <Lottie
-        key={play}
+        key={`${play}`}
         animationData={github}
         loop={true}
         autoplay={true}
         initialSegment={[200, 300]}
-        speed={1}
       />
     </div>
   );
@@ -97,7 +104,12 @@ const links = [
   },
 ];
 
-const TrueLiquidButton = ({ item, index }) => {
+interface TrueLiquidButtonProps {
+  item: SocialLink;
+  index: number;
+}
+
+const TrueLiquidButton = ({ item, index }: TrueLiquidButtonProps) => {
   return (
     <motion.a
       href={item.href}

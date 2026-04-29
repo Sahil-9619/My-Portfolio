@@ -1,10 +1,22 @@
 "use client";
 
 import { useEffect } from "react";
+import * as THREE from "three";
+
+declare global {
+    interface Window {
+        THREE?: typeof THREE;
+    }
+}
 
 export const useBackground = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
     useEffect(() => {
-        let renderer, scene, camera, animationId;
+
+
+        let renderer: THREE.WebGLRenderer | undefined;
+        let scene: THREE.Scene | undefined;
+        let camera: THREE.PerspectiveCamera | undefined;
+        let animationId: number | undefined;
 
         const handleResize = () => {
             if (!renderer || !camera) return;
@@ -19,9 +31,8 @@ export const useBackground = (canvasRef: React.RefObject<HTMLCanvasElement>) => 
         let currentScroll = 0;
         let mouseX = 0;
         let mouseY = 0;
-
-        const shards = [];
-        let flightCurve;
+        const shards: THREE.Mesh[] = [];
+        let flightCurve: THREE.CatmullRomCurve3;
 
         const initThreeJS = () => {
             if (!window.THREE || scene) return;
@@ -135,6 +146,8 @@ export const useBackground = (canvasRef: React.RefObject<HTMLCanvasElement>) => 
 
             // ANIMATE
             const animate = () => {
+                if (!renderer || !scene || !camera) return;
+
                 animationId = requestAnimationFrame(animate);
 
                 currentScroll += (targetScroll - currentScroll) * 0.05;
@@ -187,7 +200,9 @@ export const useBackground = (canvasRef: React.RefObject<HTMLCanvasElement>) => 
             initThreeJS();
         }
         return () => {
-            cancelAnimationFrame(animationId);
+            if (animationId !== undefined) {
+                cancelAnimationFrame(animationId);
+            }
             window.removeEventListener("resize", handleResize);
         };
 
