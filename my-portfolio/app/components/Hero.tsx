@@ -108,7 +108,7 @@ export default function App() {
   };
 
   return (
-    <main className="relative min-h-screen bg-transparent text-[var(--text)] selection:bg-[var(--accent-soft)] font-sans pb-10 md:pb-12 overflow-x-hidden">
+    <main className="relative min-h-screen bg-transparent text-[var(--text)] selection:bg-[var(--accent-soft)] font-sans  md:pb-12 overflow-x-hidden">
 
       {/* --- SCROLL PROGRESS BAR --- */}
       <motion.div

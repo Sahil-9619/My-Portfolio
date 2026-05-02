@@ -120,7 +120,7 @@ const TrueLiquidButton = ({ item, index }: TrueLiquidButtonProps) => {
       transition={{ delay: index * 0.15, type: "spring", stiffness: 100, damping: 20 }}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.96 }}
-      className="relative group w-[240px] h-[60px] flex items-center px-6 rounded-[28px] cursor-pointer isolate"
+      className="relative group w-[120px] sm:w-[150px] lg:w-[240px] h-[50px] sm:h-[55px] lg:h-[60px] flex items-center justify-center lg:justify-start px-3 lg:px-6 rounded-xl lg:rounded-[28px] cursor-pointer isolate"
     >
       {/* --- EXTERNAL GLOW --- */}
       <div
@@ -165,30 +165,27 @@ const TrueLiquidButton = ({ item, index }: TrueLiquidButtonProps) => {
 
       {/* --- CONTENT LAYER --- */}
       <div className="flex items-center justify-between w-full relative z-30 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-2 sm:gap-5">
           {/* Glass Icon Box */}
-          <div >
-
+          <div className="flex items-center justify-center">
             {item.icon}
-
           </div>
 
           {/* Typography */}
           <div className="flex flex-col justify-center">
-            <span className="text-white font-bold tracking-[0.08em] text-[15px] uppercase group-hover:text-white transition-colors duration-300">
+            <span className="text-white font-bold tracking-tight lg:tracking-[0.08em] text-[12px] sm:text-[13px] lg:text-[15px] uppercase group-hover:text-white transition-colors duration-300">
               {item.name}
             </span>
           </div>
         </div>
 
-        {/* Action Arrow */}
-        <div className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 border border-white/10 text-white/60 group-hover:text-white group-hover:bg-white/20 group-hover:border-white/30 transition-all duration-300 overflow-hidden relative backdrop-blur-sm shadow-sm">
+        <div className="hidden md:flex w-8 h-8 sm:w-10 sm:h-10 rounded-full items-center justify-center bg-white/10 border border-white/10 text-white/60 group-hover:text-white group-hover:bg-white/20 group-hover:border-white/30 transition-all duration-300 overflow-hidden relative backdrop-blur-sm shadow-sm">
           <motion.div
             initial={{ x: 0 }}
             whileHover={{ x: [0, 5, -5, 0] }}
             transition={{ duration: 0.4, ease: "easeInOut" }}
           >
-            <ArrowRight size={18} strokeWidth={2} />
+            <ArrowRight size={16} strokeWidth={2} />
           </motion.div>
         </div>
       </div>
@@ -259,24 +256,9 @@ const TrueLiquidButton = ({ item, index }: TrueLiquidButtonProps) => {
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-transparent flex flex-col items-center justify-center p-8 overflow-hidden relative font-sans ">
-
-
-
-      {/* Header Profile Section */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="text-center mb-14 relative z-10"
-      >
-        <p className="text-[var(--text)] text-sm font-medium tracking-[0.2em] uppercase">
-          Connect with me
-        </p>
-      </motion.div>
-
+    <div className="h-auto bg-transparent flex flex-col items-center justify-center overflow-hidden relative font-sans py-2">
       {/* The Beautiful Buttons */}
-      <div className="flex flex-col gap-6 relative z-10">
+      <div className="flex flex-row lg:flex-col gap-2 sm:gap-6 relative z-10 w-full justify-center items-center">
         {links.map((link, index) => (
           <TrueLiquidButton key={link.name} item={link} index={index} />
         ))}
