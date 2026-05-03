@@ -15,7 +15,7 @@ export default function About() {
     <section
       id="about"
       style={{ isolation: "isolate" }}
-      className="relative bg-transparent md:pt-5 overflow-visible pr-4 sm:pr-6 md:pr-10 lg:pr-12 xl:pr-16 pl-0"
+      className="relative bg-transparent pt-28 md:pt-32 overflow-visible pr-4 sm:pr-6 md:pr-10 lg:pr-12 xl:pr-16 pl-0"
     >
 
 
