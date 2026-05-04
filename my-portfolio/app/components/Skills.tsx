@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {
-    Code2, Database, Layout, Terminal, Cpu, Globe, Layers,
-    Wand2, Figma, Smartphone, Server, Cloud, Palette, GitBranch
-} from 'lucide-react';
+import { AnimatePresence, motion } from "framer-motion";
+
 
 // --- Custom Cursor Component ---
 const CustomCursor = () => {
@@ -33,11 +31,11 @@ const CustomCursor = () => {
     return (
         <>
             <div
-                className="pointer-events-none fixed left-0 top-0  h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#ccff00] mix-blend-difference transition-transform duration-75 ease-out will-change-transform"
+                className="pointer-events-none fixed left-0 top-0  h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--accent)] mix-blend-difference transition-transform duration-75 ease-out will-change-transform"
                 style={{ transform: `translate(${position.x}px, ${position.y}px) scale(${isHovering ? 0 : 1})` }}
             />
             <div
-                className="pointer-events-none fixed left-0 top-0  h-12 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#ccff00] transition-all duration-300 ease-out will-change-transform"
+                className="pointer-events-none fixed left-0 top-0  h-12 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[var(--accent)] transition-all duration-300 ease-out will-change-transform"
                 style={{
                     transform: `translate(${position.x}px, ${position.y}px) scale(${isHovering ? 1.5 : 0})`,
                     opacity: isHovering ? 1 : 0
@@ -50,32 +48,30 @@ const CustomCursor = () => {
 // --- Skill Data ---
 const skillCategories = {
     "Frontend": [
-        { name: 'React.js', icon: Code2, desc: 'Component Architecture' },
-        { name: 'Next.js', icon: Globe, desc: 'Server-side Rendering' },
-        { name: 'TypeScript', icon: Terminal, desc: 'Static Typing' },
-        { name: 'Tailwind CSS', icon: Layout, desc: 'Utility-first Styling' },
-        { name: 'Framer Motion', icon: Wand2, desc: 'Complex Animations' },
-        { name: 'Three.js', icon: Layers, desc: 'WebGL 3D Experiences' },
+        { name: 'React', image: 'https://skillicons.dev/icons?i=react', desc: 'Library for UI' },
+        { name: 'Next.js', image: 'https://skillicons.dev/icons?i=nextjs', desc: 'React Framework' },
+        { name: 'Redux', image: 'https://skillicons.dev/icons?i=redux', desc: 'State Management' },
+        { name: 'Tailwind', image: 'https://skillicons.dev/icons?i=tailwind', desc: 'CSS Framework' },
+        { name: 'shadcn/ui', image: 'https://avatars.githubusercontent.com/u/139895814?s=200&v=4', desc: 'UI Components' },
     ],
     "Backend": [
-        { name: 'Node.js', icon: Server, desc: 'Runtime Environment' },
-        { name: 'PostgreSQL', icon: Database, desc: 'Relational Database' },
-        { name: 'Python', icon: Code2, desc: 'Data & Scripting' },
-        { name: 'Redis', icon: Database, desc: 'In-memory Caching' },
-        { name: 'GraphQL', icon: Layers, desc: 'API Query Language' },
-        { name: 'REST APIs', icon: Globe, desc: 'System Integration' },
+        { name: 'Node.js', image: 'https://skillicons.dev/icons?i=nodejs', desc: 'JS Runtime' },
+        { name: 'Express.js', image: 'https://skillicons.dev/icons?i=express', desc: 'Web Framework' },
+        { name: 'Django', image: 'https://skillicons.dev/icons?i=django', desc: 'Python Framework' },
+        { name: 'Redis', image: 'https://skillicons.dev/icons?i=redis', desc: 'In-memory DB' },
+        { name: 'Swagger', image: 'https://raw.githubusercontent.com/swagger-api/swagger-ui/master/docs/images/swagger_logo_2x.png', desc: 'API Documentation' },
     ],
-    "Design": [
-        { name: 'Figma', icon: Figma, desc: 'Interface Design' },
-        { name: 'UI / UX', icon: Palette, desc: 'User Experience' },
-        { name: 'Prototyping', icon: Smartphone, desc: 'Interactive Flows' },
-        { name: 'Wireframing', icon: Layout, desc: 'Structural Layouts' },
+    "Database": [
+        { name: 'MySQL', image: 'https://skillicons.dev/icons?i=mysql', desc: 'Relational DB' },
+        { name: 'MongoDB', image: 'https://skillicons.dev/icons?i=mongodb', desc: 'NoSQL DB' },
+        { name: 'PostgreSQL', image: 'https://skillicons.dev/icons?i=postgres', desc: 'Advanced SQL' },
+        { name: 'Sequelize', image: 'https://skillicons.dev/icons?i=sequelize', desc: 'Node.js ORM' },
+        { name: 'Django ORM', image: 'https://skillicons.dev/icons?i=django', desc: 'Python ORM' },
     ],
     "DevOps": [
-        { name: 'Docker', icon: Cpu, desc: 'Containerization' },
-        { name: 'AWS', icon: Cloud, desc: 'Cloud Infrastructure' },
-        { name: 'CI / CD', icon: Terminal, desc: 'Automated Pipelines' },
-        { name: 'Git Flow', icon: GitBranch, desc: 'Version Control' },
+        { name: 'Git', image: 'https://skillicons.dev/icons?i=git', desc: 'Version Control' },
+        { name: 'GitHub', image: 'https://skillicons.dev/icons?i=github', desc: 'Platform' },
+        { name: 'Docker', image: 'https://skillicons.dev/icons?i=docker', desc: 'Containers' },
     ]
 };
 
@@ -86,18 +82,27 @@ export default function App() {
     return (
         <div
             id="skills"
-            className="relative min-h-screen w-full  text-[--text] font-sans selection:bg-[#ccff00] selection:text-black lg:cursor-none overflow-hidden flex flex-col">
+            className="relative min-h-screen w-full  text-[--text] font-sans selection:bg-[var(--accent)] selection:text-black lg:cursor-none overflow-hidden flex flex-col pt-20 md:pt-22">
 
             {/* Global CSS for Brutalist styles and animations */}
             <style dangerouslySetInnerHTML={{
                 __html: `
         .text-stroke {
-          -webkit-text-stroke: 1px #3f3f46;
-          color: transparent;
+          -webkit-text-stroke: 1px var(--border);
+          color: var(--text);
+          opacity: 0.15;
         }
         .text-stroke-active {
-          -webkit-text-stroke: 1px transparent;
-          color: #b1e8e8;
+          background: linear-gradient(to right, var(--text) 0%, var(--accent) 50%, var(--text) 100%);
+          background-size: 200% auto;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: shimmer 3s linear infinite;
+        }
+        
+        @keyframes shimmer {
+          0% { background-position: 0% center; }
+          100% { background-position: 200% center; }
         }
         
         @keyframes slideUpFade {
@@ -128,9 +133,19 @@ export default function App() {
       `}} />
 
 
+            {/* Section Header Styled like About section */}
+            <div className="w-full flex justify-start mt-10 md:mt-25 px-6 md:px-12">
+                <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-[var(--accent)] animate-pulse" />
+                    <span className="text-xl font-mono uppercase tracking-[0.3em] text-[var(--accent)] opacity-80">
+                        SKILLS
+                    </span>
+                </div>
+            </div>
+
             {/* Massive Background Marquee Text */}
             <div className="pointer-events-none absolute left-0 top-1/2 flex w-[200vw] -translate-y-1/2 opacity-[0.05]">
-                <div className="animate-marquee whitespace-nowrap text-[25vw] font-black uppercase tracking-tighter text-white">
+                <div className="animate-marquee whitespace-nowrap text-[15vw] font-black uppercase tracking-tighter text-[var(--text)]">
                     {activeCategory} • {activeCategory} • {activeCategory} • {activeCategory} •
                 </div>
             </div>
@@ -139,8 +154,8 @@ export default function App() {
             <main className="relative flex flex-1 flex-col lg:flex-row h-full overflow-hidden">
 
                 {/* Left Side: Kinetic Typography Navigation */}
-                <div className="flex w-full flex-col justify-center border-b border-zinc-800/50 p-6 lg:w-1/2 lg:border-b-0 lg:border-r lg:p-12 xl:p-24">
-                    <p className="mb-8 text-sm font-mono uppercase tracking-widest">
+                <div className="relative flex w-full flex-col justify-center p-4 lg:w-1/2 lg:p-8 xl:p-16">
+                    <p className="mb-4 text-xs font-mono uppercase tracking-widest text-[var(--text-muted)]">
                         [ Select Domain ]
                     </p>
                     <div className="flex flex-col items-start gap-4 lg:gap-8">
@@ -148,27 +163,33 @@ export default function App() {
                             <button
                                 key={category}
                                 onClick={() => setActiveCategory(category as keyof typeof skillCategories)}
-                                className={`hover-trigger group relative text-5xl font-black uppercase tracking-tighter transition-all duration-500 sm:text-6xl md:text-7xl lg:text-8xl xl:text-8xl ${activeCategory === category
-                                    ? 'text-stroke-active translate-x-4 lg:translate-x-8'
-                                    : 'text-stroke hover:text-stroke-active hover:text-zinc-500'
+                                className={`hover-trigger group relative text-3xl font-black uppercase tracking-tighter transition-all duration-500 sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl ${activeCategory === category
+                                    ? 'text-stroke-active translate-x-2 lg:translate-x-4'
+                                    : 'text-stroke hover:opacity-80 hover:scale-[1.02]'
                                     }`}
                             >
-                                {/* Accent line indicating active state */}
-                                <div className={`absolute -left-4 lg:-left-8 top-1/2 h-2 w-0 -translate-y-1/2 bg-[#ccff00] transition-all duration-500 ${activeCategory === category ? 'w-2 lg:w-4' : 'group-hover:w-1'
+                                {/* Aceternity-style Glow Pill */}
+                                <div className={`absolute -left-2 lg:-left-4 top-1/2 h-4 w-1 -translate-y-1/2 rounded-full bg-[var(--accent)] blur-[2px] transition-all duration-500 ${activeCategory === category ? 'opacity-100' : 'opacity-0 group-hover:opacity-50'
+                                    }`} />
+                                <div className={`absolute -left-2 lg:-left-4 top-1/2 h-4 w-1 -translate-y-1/2 rounded-full bg-[var(--accent)] transition-all duration-500 ${activeCategory === category ? 'opacity-100' : 'opacity-0 group-hover:opacity-50'
                                     }`} />
                                 {category}
                             </button>
                         ))}
                     </div>
+
+                    {/* Centered Divider */}
+                    <div className="absolute right-0 top-1/2 hidden h-1/2 w-[1px] -translate-y-1/2 bg-[var(--border)] lg:block" />
+                    <div className="mx-auto h-[1px] w-1/2 bg-[var(--border)] lg:hidden" />
                 </div>
 
                 {/* Right Side: Brutalist Data Cards (Scrollable on small screens) */}
-                <div className="flex w-full flex-col p-6 lg:w-1/2 lg:p-12 xl:p-24  overflow-y-auto">
-                    <div className="mb-12 max-w-md shrink-0">
-                        <h2 className="mb-4 text-3xl font-bold tracking-tight text-white uppercase">
+                <div className="flex w-full flex-col p-4 lg:w-1/2 lg:p-8 xl:p-16  overflow-y-auto">
+                    <div className="mb-8 max-w-md shrink-0">
+                        <h2 className="mb-2 text-xl font-bold tracking-tight text-[var(--text)] uppercase">
                             {activeCategory} Ecosystem
                         </h2>
-                        <p className="text-zinc-400 leading-relaxed">
+                        <p className="text-[var(--text-muted)] leading-relaxed text-sm">
                             A curated selection of the tools, frameworks, and technologies I utilize to build robust, scalable, and high-performance solutions in the {activeCategory.toLowerCase()} space.
                         </p>
                     </div>
@@ -176,40 +197,83 @@ export default function App() {
                     {/* Cards Container with Key to force re-animation on category change */}
                     <div
                         key={activeCategory}
-                        className="animate-stagger grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-6 pb-12"
+                        className="animate-stagger grid grid-cols-2 gap-2 sm:gap-3 lg:gap-4 pb-12"
                     >
                         {skillCategories[activeCategory].map((skill, index) => (
-                            <div
-                                key={skill.name}
-                                className="hover-trigger group relative flex flex-col justify-between border border-zinc-800  bg-transparent p-6 md:p-8 transition-all duration-300 hover:-translate-y-2 hover:bg-[#ccff00] hover:shadow-[0_20px_40px_-15px_rgba(204,255,0,0.2)]"
-                            >
-                                {/* Top Section */}
-                                <div className="mb-12 flex items-start justify-between">
-                                    <skill.icon className="h-8 w-8 text-[--text] duration-300 group-hover:text-[--accent]" strokeWidth={1.5} />
-                                    <span className="font-mono text-xs text-zinc-600 transition-colors duration-300 group-hover:text-black/60">
-                                        {String(index + 1).padStart(2, '0')}
-                                    </span>
-                                </div>
-
-                                {/* Bottom Section */}
-                                <div>
-                                    <h3 className="mb-2 text-xl md:text-2xl font-bold text-zinc-100 transition-colors duration-300 group-hover:text-black">
-                                        {skill.name}
-                                    </h3>
-                                    <p className="text-sm font-medium text-zinc-500 transition-colors duration-300 group-hover:text-black/80">
-                                        {skill.desc}
-                                    </p>
-                                </div>
-
-                                {/* Corner Accents */}
-                                <div className="absolute left-0 top-0 h-3 w-3 border-l-2 border-t-2 border-zinc-700 transition-colors duration-300 group-hover:border-black" />
-                                <div className="absolute right-0 bottom-0 h-3 w-3 border-b-2 border-r-2 border-zinc-700 transition-colors duration-300 group-hover:border-black" />
-                            </div>
+                            <SkillCard key={skill.name} skill={skill} index={index} />
                         ))}
                     </div>
 
                 </div>
             </main>
+        </div>
+    );
+}
+
+/* ---------- COMPONENTS ---------- */
+
+function SkillCard({ skill, index }: { skill: any, index: number }) {
+    let [isHovered, setIsHovered] = useState(false);
+
+    return (
+        <div
+            className="relative group block p-1 h-full w-full"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+        >
+            <AnimatePresence>
+                {isHovered && (
+                    <motion.span
+                        className="absolute inset-0 h-full w-full bg-[var(--accent-soft)]/40 block rounded-2xl md:rounded-3xl"
+                        layoutId="hoverBackground"
+                        initial={{ opacity: 0 }}
+                        animate={{
+                            opacity: 1,
+                            transition: {
+                                type: "spring",
+                                stiffness: 300,
+                                damping: 30,
+                                duration: 0.15
+                            },
+                        }}
+                        exit={{
+                            opacity: 0,
+                            transition: { duration: 0.15, delay: 0.1 },
+                        }}
+                    />
+                )}
+            </AnimatePresence>
+            <div className="relative h-full rounded-2xl border border-[var(--border)] p-1 transition-all duration-500 group-hover:border-[var(--accent)]/30 md:rounded-3xl md:p-1.5 bg-transparent z-10 overflow-hidden">
+                <div className="relative z-10 flex h-full flex-col justify-between gap-4 rounded-xl bg-transparent p-4 sm:p-5 md:p-6">
+                    {/* Top Section */}
+                    <div className="mb-4 flex items-start justify-between">
+                        <div className="relative h-8 w-8 sm:h-10 sm:w-10 overflow-hidden rounded-lg sm:rounded-xl border border-[var(--border)] group-hover:border-[var(--accent)] transition-colors duration-300">
+                            <img
+                                src={skill.image}
+                                alt={skill.name}
+                                className="h-full w-full object-cover"
+                            />
+                        </div>
+                        <span className="font-mono text-[10px] sm:text-xs text-[var(--text-muted)] transition-colors duration-300 group-hover:text-[var(--text)]/60">
+                            {String(index + 1).padStart(2, '0')}
+                        </span>
+                    </div>
+
+                    {/* Bottom Section */}
+                    <div className="mt-auto">
+                        <h3 className="mb-1 text-sm sm:text-base md:text-lg font-bold text-[var(--text)] transition-colors duration-300 group-hover:text-[var(--text)]">
+                            {skill.name}
+                        </h3>
+                        <p className="text-[10px] sm:text-xs font-medium text-[var(--text-muted)] transition-colors duration-300 group-hover:text-[var(--text-muted)]">
+                            {skill.desc}
+                        </p>
+                    </div>
+
+                    {/* Corner Accents */}
+                    <div className="absolute left-0 top-0 h-2 w-2 border-l-2 border-t-2 border-[var(--border)] transition-colors duration-300 group-hover:border-[var(--accent)]" />
+                    <div className="absolute right-0 bottom-0 h-2 w-2 border-b-2 border-r-2 border-[var(--border)] transition-colors duration-300 group-hover:border-[var(--accent)]" />
+                </div>
+            </div>
         </div>
     );
 }

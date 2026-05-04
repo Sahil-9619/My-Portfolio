@@ -12,7 +12,7 @@ import {
   Globe, Clock, Zap,
   ArrowUpRight
 } from "lucide-react";
-import { TextHoverEffect } from "@/components/ui/text-hover-effect";
+import { TextHoverEffect } from "../../components/ui/text-hover-effect";
 
 import { useMouse } from "../hooks/useMouse";
 import Lottie from "lottie-react";

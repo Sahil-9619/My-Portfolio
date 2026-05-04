@@ -38,7 +38,7 @@ export default function Page() {
       <ThemeToggle />
       <About />
       <Skills />
-      <Experience />
+
     </main>
   );
 }
