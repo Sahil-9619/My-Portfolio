@@ -6,6 +6,7 @@ import { useEffect } from "react";
 const NAV_LINKS = [
   { name: "About", href: "about" },
   { name: "Skills", href: "skills" },
+  { name: "Experience", href: "experience" },
   { name: "Projects", href: "projects" },
   { name: "Contact", href: "contact" },
 ];
@@ -119,12 +120,14 @@ const Nav = () => {
                   onClick={() => handleClick(link.href)}
                   onMouseEnter={() => setHoveredNav(idx)}
                   onMouseLeave={() => setHoveredNav(null)}
-                  className="relative px-4 py-2 text-sm font-medium text-neutral-400 hover:text-white transition-colors"
+                  className={`relative px-4 py-2 text-sm font-medium transition-colors ${activeSection === link.href || hoveredNav === idx ? 'text-white' : 'text-neutral-400'}`}
                 >
-                  {hoveredNav === idx && (
-                    <motion.div layoutId="nav-pill" className="absolute inset-0 bg-white/10 rounded-full -z-10" />
-                  )}
                   {link.name}
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: hoveredNav === idx || activeSection === link.href ? "80%" : 0 }}
+                    className="absolute bottom-1 left-1/2 -translate-x-1/2 h-[2px] bg-[var(--accent)]"
+                  />
                 </button>
               ))}
             </div>

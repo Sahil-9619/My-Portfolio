@@ -108,12 +108,11 @@ export default function App() {
   };
 
   return (
-    <main className="relative min-h-screen bg-transparent text-[var(--text)] selection:bg-[var(--accent-soft)] font-sans  md:pb-12 overflow-x-hidden">
+    <main id="home" className="relative min-h-screen bg-transparent text-[var(--text)] selection:bg-[var(--accent-soft)] font-sans  md:pb-12 overflow-x-hidden">
 
       {/* --- SCROLL PROGRESS BAR --- */}
       <motion.div
-
-        className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--accent)] via-[var(--accent)] to-[var(--accent)] origin-left"
+        className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--accent)] via-[var(--accent)] to-[var(--accent)] origin-left z-[10000]"
         style={{ scaleX }}
       />
 

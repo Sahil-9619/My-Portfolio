@@ -66,7 +66,7 @@ const skillCategories = {
         { name: 'MongoDB', image: 'https://skillicons.dev/icons?i=mongodb', desc: 'NoSQL DB' },
         { name: 'PostgreSQL', image: 'https://skillicons.dev/icons?i=postgres', desc: 'Advanced SQL' },
         { name: 'Sequelize', image: 'https://skillicons.dev/icons?i=sequelize', desc: 'Node.js ORM' },
-        { name: 'Django ORM', image: 'https://skillicons.dev/icons?i=django', desc: 'Python ORM' },
+
     ],
     "DevOps": [
         { name: 'Git', image: 'https://skillicons.dev/icons?i=git', desc: 'Version Control' },
@@ -82,7 +82,7 @@ export default function App() {
     return (
         <div
             id="skills"
-            className="relative min-h-screen w-full  text-[--text] font-sans selection:bg-[var(--accent)] selection:text-black lg:cursor-none overflow-hidden flex flex-col pt-20 md:pt-22">
+            className="relative z-10 min-h-screen w-full text-[--text] font-sans selection:bg-[var(--accent)] selection:text-black lg:cursor-none overflow-hidden flex flex-col pt-16">
 
             {/* Global CSS for Brutalist styles and animations */}
             <style dangerouslySetInnerHTML={{
@@ -154,7 +154,7 @@ export default function App() {
             <main className="relative flex flex-1 flex-col lg:flex-row h-full overflow-hidden">
 
                 {/* Left Side: Kinetic Typography Navigation */}
-                <div className="relative flex w-full flex-col justify-center p-4 lg:w-1/2 lg:p-8 xl:p-16">
+                <div className="relative flex w-full flex-col justify-start lg:justify-start p-4 pt-2 md:pt-0 lg:pt-4 lg:w-1/2 lg:p-8 xl:p-16">
                     <p className="mb-4 text-xs font-mono uppercase tracking-widest text-[var(--text-muted)]">
                         [ Select Domain ]
                     </p>
@@ -184,7 +184,7 @@ export default function App() {
                 </div>
 
                 {/* Right Side: Brutalist Data Cards (Scrollable on small screens) */}
-                <div className="flex w-full flex-col p-4 lg:w-1/2 lg:p-8 xl:p-16  overflow-y-auto">
+                <div className="flex w-full flex-col p-4 lg:w-1/2 lg:p-8 xl:p-16  overflow-y-auto no-scrollbar">
                     <div className="mb-8 max-w-md shrink-0">
                         <h2 className="mb-2 text-xl font-bold tracking-tight text-[var(--text)] uppercase">
                             {activeCategory} Ecosystem

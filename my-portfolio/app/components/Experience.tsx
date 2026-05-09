@@ -1,312 +1,221 @@
-import React, { useRef, useState } from "react";
-import { motion, useScroll, useTransform, useSpring, useMotionValueEvent, AnimatePresence } from "framer-motion";
-import { TerminalSquare, ArrowDown } from "lucide-react";
+"use client";
 
-// --- MOCK DATA ---
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowUpRight, MapPin, Calendar, Activity, Code2, Layers, Cpu, ShieldCheck, ChevronRight } from "lucide-react";
+
 const EXPERIENCES = [
-    {
-        id: 1,
-        role: "Senior Frontend Engineer",
-        company: "TechNova",
-        location: "Remote",
-        period: "2024 - Present",
-        description: "Architected a scalable micro-frontend ecosystem, drastically cutting load times by 40%. Directed a squad of developers to forge high-octane, accessible UI libraries.",
-        achievements: [
-            "Built a component library used by 3 cross-functional teams.",
-            "Engineered advanced CI/CD pipelines cutting deploy times by 25%.",
-            "Mentored juniors, establishing elite code-review standards."
-        ],
-        tech: ["React", "Next.js", "TypeScript", "Framer Motion"],
-        theme: "from-indigo-500/20 to-purple-500/20",
-        border: "border-indigo-500/30",
-        accent: "text-indigo-400"
-    },
-    {
-        id: 2,
-        role: "Full Stack Developer",
-        company: "Creative Nexus",
-        location: "New York, NY",
-        period: "2022 - 2024",
-        description: "Forged immersive, physics-driven web applications for top-tier fashion and tech clientele. Fused complex WebGL animations with robust headless CMS architectures.",
-        achievements: [
-            "Awarded 'Site of the Day' on Awwwards for a global campaign.",
-            "Optimized database indexing, slashing API latency by over 50%.",
-            "Integrated secure financial routing handling $1M+ monthly."
-        ],
-        tech: ["Vue.js", "Three.js", "PostgreSQL", "Node.js"],
-        theme: "from-emerald-500/20 to-cyan-500/20",
-        border: "border-emerald-500/30",
-        accent: "text-emerald-400"
-    },
-    {
-        id: 3,
-        role: "UI/UX Developer",
-        company: "Pixel Perfect",
-        location: "San Francisco, CA",
-        period: "2020 - 2022",
-        description: "Bridged the critical void between design aesthetics and engineering constraints. Translated intricate Figma prototypes into fluid, pixel-perfect interactive realities.",
-        achievements: [
-            "Overhauled core SaaS dashboards, skyrocketing user retention.",
-            "Developed an internal design token API for frictionless handoffs.",
-            "Led A/B testing initiatives yielding a 20% conversion bump."
-        ],
-        tech: ["JavaScript", "React", "Sass", "Figma"],
-        theme: "from-rose-500/20 to-orange-500/20",
-        border: "border-rose-500/30",
-        accent: "text-rose-400"
-    }
+  {
+    id: "01",
+    company: "Startup Web Support",
+    logo: "/sws.png",
+    role: "Full Stack Developer",
+    period: "FEB 2026 / ONGOING",
+    location: "Patna, Bihar",
+    description: "Developing and optimizing responsive web applications for live client projects in a fast-paced startup environment. Focusing on seamless delivery and API performance.",
+    metrics: ["API Performance Optimization", "Client-Side Architecture", "Multi-Device Responsiveness"],
+    tech: ["React", "Next.js", "Node.js", "Express"],
+    accent: "var(--accent)"
+  },
+  {
+    id: "02",
+    company: "Google",
+    logo: "/google.png",
+    role: "Student Ambassador",
+    period: "SEP 2025 / DEC 2025",
+    location: "Campus Level",
+    description: "Representing Google initiatives at the campus level. Spearheading community growth through workshops and hands-on guidance with emerging AI technologies.",
+    metrics: ["Conducted AI Workshops", "Google Gemini Advocacy", "Peer Mentorship"],
+    tech: ["Gemini AI", "AI Tools", "Public Speaking", "Community"],
+    accent: "#4285F4"
+  },
+  {
+    id: "03",
+    company: "i1i Industry",
+    logo: "/i2i.png",
+    role: "Web Developer Intern",
+    period: "JULY 2025 / JULY 2025",
+    location: "Remote",
+    description: "Led a small team of developers during a MERN stack project focused on user interaction and intelligent automation.",
+    metrics: ["Led MERN Project Team", "AI Chatbot Integration", "Full-Stack Development"],
+    tech: ["MongoDB", "Express", "React", "Node.js"],
+    accent: "#47A248"
+  }
 ];
 
-// --- STACKED CARD COMPONENT ---
-// Mathematically calculates its position, scale, and opacity based on scroll progress
-const StackCard = ({ exp, index, totalCards, scrollYProgress }: { exp: typeof EXPERIENCES[0]; index: number; totalCards: number; scrollYProgress: any }) => {
-    const section = 1 / totalCards;
+export default function Experience() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-    const start = index * section;
-    const end = start + section;
+  return (
+    <section id="experience" className="relative min-h-[80vh] pt-16 md:pt-0 pb-10 pb-0 px-6 md:px-12 lg:px-2 selection:bg-[var(--accent)] selection:text-black">
 
-    // ENTRY DELAY (card rukega thoda)
-    const entryStart = start;
-    const entryEnd = start + section * 0.5;
+      <div className="relative z-10 max-w-7xl mx-auto">
 
-    const x = useTransform(
-        scrollYProgress,
-        [entryStart, entryEnd],
-        index === 0 ? ["0%", "0%"] : ["-120%", "0%"]
-    );
-    const opacity = useTransform(
-        scrollYProgress,
-        [
-            start,
-            start + section * 0.2,   // entry
-            start + section * 0.8,   // HOLD (long time visible)
-            end
-        ],
-        [0, 1, 1, 0]
-    );
+        {/* Matching About Section Header Style */}
+        <div className="w-full flex justify-start mb-8">
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 bg-[var(--accent)] animate-pulse" />
+            <span className="text-base font-mono uppercase tracking-[0.3em] text-[var(--accent)] opacity-80">
+              EXPERIENCES
+            </span>
+          </div>
+        </div>
 
-    const scale = useTransform(
-        scrollYProgress,
-        [start, end],
-        [0.95, 1]
-    );
 
-    const blur = useTransform(
-        scrollYProgress,
-        [start, entryEnd],
-        ["blur(1px)", "blur(0px)"]
-    );
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
-    return (
-        <motion.div
-            style={{
-                x,
-                opacity,
-                scale,
-                filter: blur,
-                zIndex: index,
-            }}
-            className={`absolute inset-0 flex flex-col justify-between rounded-[2rem] border  bg-gradient-to-br ${exp.theme} ${exp.border} p-8 shadow-2xl backdrop-blur-xl overflow-hidden`}
-        >
-            {/* content same */}
-            <div className="flex justify-between items-start w-full">
-                <div className="flex items-center gap-2 rounded-full border border-white/10 bg-black/50 px-4 py-2 text-xs font-mono text-zinc-300 backdrop-blur-md">
-                    {exp.period}
+          {/* Left Side: Company List */}
+          <div className="lg:col-span-4 relative">
+            {/* Dynamic Background Logo for the list */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-[0.03] select-none">
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={activeIndex}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.1 }}
+                  transition={{ duration: 0.8 }}
+                  src={EXPERIENCES[activeIndex].logo}
+                  className="w-full h-full object-contain filter grayscale invert brightness-0 dark:invert-0 dark:brightness-100"
+                />
+              </AnimatePresence>
+            </div>
+
+            <div className="flex flex-col gap-2 relative z-10">
+            {EXPERIENCES.map((exp, index) => (
+              <button
+                key={exp.id}
+                onMouseEnter={() => {
+                  setActiveIndex(index);
+                  setHoveredIndex(index);
+                }}
+                onMouseLeave={() => setHoveredIndex(null)}
+                onClick={() => setActiveIndex(index)}
+                className={`w-full group relative p-5 border transition-all duration-500 text-left rounded-xl overflow-hidden ${activeIndex === index ? 'border-[var(--accent)] bg-[var(--accent)]/10 shadow-[0_0_20px_rgba(var(--accent-rgb),0.1)]' : 'border-white/5 hover:border-[var(--accent)]/50 bg-white/5'}`}
+              >
+                {/* Shining Border Effect on Hover - Strictly conditional */}
+                {hoveredIndex === index && (
+                  <div className="absolute inset-0 pointer-events-none">
+                    <div
+                      className="absolute inset-[-100%] animate-[spin_4s_linear_infinite] opacity-30"
+                      style={{ background: `conic-gradient(from 0deg, transparent, ${exp.accent}, transparent)` }}
+                    />
+                  </div>
+                )}
+
+                {/* Active Indicator Bar */}
+                {activeIndex === index && (
+                  <motion.div
+                    layoutId="activeBar"
+                    className="absolute left-0 top-0 bottom-0 w-1 bg-[var(--accent)]"
+                  />
+                )}
+
+                  <div className="relative z-10 flex items-center justify-between w-full">
+                    <div className="flex items-center gap-4">
+                      <img
+                        src={exp.logo}
+                        alt={exp.company}
+                        className="w-8 h-8 md:w-10 md:h-10 rounded-lg object-contain p-1.5 bg-white transition-all duration-500"
+                      />
+                      <h3 className={`text-xl md:text-2xl font-black uppercase tracking-tighter transition-all duration-500 ${activeIndex === index ? 'text-white' : 'text-zinc-400 group-hover:text-white'}`}>
+                        {exp.company}
+                      </h3>
+                    </div>
+                    <ChevronRight
+                      size={18}
+                      className={`transition-all duration-500 ${activeIndex === index ? 'text-[var(--accent)] translate-x-0 opacity-100' : 'text-zinc-800 -translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-zinc-400'}`}
+                    />
+                  </div>
+                </button>
+            ))}
+          </div>
+        </div>
+
+          {/* Right Side: Compact Detail View */}
+          <div className="lg:col-span-8 perspective-1000">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeIndex}
+                initial={{ opacity: 0, scale: 0.98, x: 20 }}
+                animate={{ opacity: 1, scale: 1, x: 0 }}
+                exit={{ opacity: 0, scale: 1.02, x: -20 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="relative border border-white/10 bg-transparent backdrop-blur-md p-8 md:p-10 min-h-[450px] rounded-2xl flex flex-col shadow-xl overflow-hidden"
+              >
+                {/* Visual Accent Glow */}
+                <div
+                  className="absolute -right-10 -top-10 w-64 h-64 rounded-full blur-[100px] opacity-[0.05] pointer-events-none"
+                  style={{ backgroundColor: EXPERIENCES[activeIndex].accent }}
+                />
+
+                {/* Header Info */}
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-white/5 pb-8">
+                  <div className="flex items-center gap-5">
+                    <img
+                      src={EXPERIENCES[activeIndex].logo}
+                      alt={EXPERIENCES[activeIndex].company}
+                      className="w-12 h-12 md:w-16 md:h-16 rounded-2xl object-contain p-2.5 bg-white shadow-lg"
+                    />
+                    <div className="space-y-1">
+                      <p className="text-[var(--accent)] text-sm md:text-xl font-mono uppercase tracking-[0.2em] font-black">
+                        {EXPERIENCES[activeIndex].role}
+                      </p>
+                      <div className="flex flex-wrap items-center gap-4 text-zinc-400 text-[11px] md:text-xs font-mono uppercase tracking-wider">
+                        <div className="flex items-center gap-1.5">
+                          <Calendar size={12} className="text-[var(--accent)] opacity-70" />
+                          <span>{EXPERIENCES[activeIndex].period}</span>
+                        </div>
+                        <span className="text-zinc-800 hidden md:block">•</span>
+                        <div className="flex items-center gap-1.5">
+                          <MapPin size={12} className="text-[var(--accent)] opacity-70" />
+                          <span>{EXPERIENCES[activeIndex].location}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2 rounded-full border border-white/10 bg-black/50 px-4 py-2 text-xs font-mono text-zinc-300 backdrop-blur-md">
-                    {exp.location}
-                </div>
-            </div>
 
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none">
-                <h3 className="text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-white/5">
-                    {exp.company}
-                </h3>
-            </div>
+                <div className="flex-1 space-y-10">
+                  <p className="text-sm md:text-base text-zinc-300 font-normal leading-relaxed italic border-l border-[var(--accent)]/20 pl-6">
+                    {EXPERIENCES[activeIndex].description}
+                  </p>
 
-            <div className="relative">
-                <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">
-                    {exp.company}
-                </h2>
-                <p className={`text-xl ${exp.accent}`}>
-                    {exp.role}
-                </p>
-            </div>
-        </motion.div>
-    );
-};
-
-// --- MAIN EXPEREINCE COMPONENT ---
-export default function ExperienceSection() {
-    const containerRef = useRef(null);
-
-    // Track scroll within the 400vh container
-    const { scrollYProgress } = useScroll(
-        containerRef.current
-            ? {
-                target: containerRef,
-                offset: ["start start", "end end"]
-            }
-            : undefined
-    );
-
-    // Make scrolling feel buttery smooth
-    const springProgress = useSpring(scrollYProgress, {
-        stiffness: 50,
-        damping: 40,
-        mass: 1.5
-    });
-
-    const [activeIndex, setActiveIndex] = useState(0);
-
-    // Update active index based on scroll position for the right-side text
-    useMotionValueEvent(scrollYProgress, "change", (latest) => {
-        // Determine which card is currently taking up the majority of the view
-        const section = 1 / EXPERIENCES.length;
-        const index = Math.floor(latest / section);
-        setActiveIndex(Math.min(index, EXPERIENCES.length - 1));
-    });
-
-    const activeExp = EXPERIENCES[activeIndex];
-
-    return (
-        // The container is super tall to allow for a long scroll duration
-        // 3 cards = ~300vh - 400vh for breathing room
-        <section className="relative h-[500vh]">
-            <div ref={containerRef} className="sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden px-6 lg:px-12">
-
-                {/* Header Indicator */}
-                <div className="absolute top-10 left-6 lg:left-12 flex items-center gap-4">
-                    <div className="flex gap-1.5">
-                        {EXPERIENCES.map((_, i) => (
-                            <motion.div
-                                key={i}
-                                className={`h-1.5 rounded-full transition-all duration-500 ${activeIndex === i ? 'w-8 bg-white' : 'w-2 bg-white/20'}`}
-                            />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Tech Stack */}
+                    <div className="space-y-4">
+                      <h5 className="text-[9px] text-zinc-600 uppercase tracking-widest font-black text-zinc-500">Technologies</h5>
+                      <div className="flex flex-wrap gap-1.5">
+                        {EXPERIENCES[activeIndex].tech.map(t => (
+                          <span key={t} className="px-3 py-1 bg-[var(--text-muted)] text-zinc-950 rounded text-[10px] font-bold uppercase tracking-wider shadow-sm">
+                            {t}
+                          </span>
                         ))}
+                      </div>
                     </div>
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: scrollYProgress.get() < 0.05 ? 1 : 0 }}
-                        transition={{ duration: 0.5 }}
-                        className="flex flex-col"
-                    >
-                        <motion.span
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2 }}
-                            className="text-sm font-semibold tracking-wide text-white"
-                        >
-                            My Experience
-                        </motion.span>
 
-                        <motion.span
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.4 }}
-                            className="text-xs font-mono uppercase tracking-widest text-zinc-500"
-                        >
-                            Scroll to view <ArrowDown className="inline h-3 w-3 ml-1" />
-                        </motion.span>
-                    </motion.div>
-                </div>
-
-                {/* Layout Grid */}
-                <div className="max-w-[1400px] mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-
-                    {/* LEFT: The Stacked Cards Area */}
-                    <div className="relative h-[50vh] md:h-[60vh] lg:h-[70vh] w-full perspective-[1200px] mt-12 lg:mt-0">
-                        {EXPERIENCES.map((exp, index) => (
-                            <StackCard
-                                key={exp.id}
-                                exp={exp}
-                                index={index}
-                                totalCards={EXPERIENCES.length}
-                                scrollYProgress={springProgress}
-                            />
+                    {/* Metrics */}
+                    <div className="space-y-4">
+                      <h5 className="text-[9px] text-zinc-600 uppercase tracking-widest font-black">Key Outcomes</h5>
+                      <div className="space-y-2">
+                        {EXPERIENCES[activeIndex].metrics.map((m, i) => (
+                          <div key={i} className="flex items-center gap-3 text-[11px] text-zinc-400 group">
+                            <div className="w-1 h-1 bg-[var(--accent)] rounded-full" />
+                            <span>{m}</span>
+                          </div>
                         ))}
+                      </div>
                     </div>
-
-                    {/* RIGHT: The Changing Details Area */}
-                    <div className="relative h-auto lg:h-[70vh] flex flex-col justify-center pb-12 lg:pb-0">
-                        <AnimatePresence mode="wait">
-                            <motion.div
-                                key={activeExp.id}
-
-                                // 🔥 ENTRY FROM RIGHT (VIDEO STYLE)
-                                initial={{ x: "120%", opacity: 0 }}
-                                animate={{ x: "0%", opacity: 1 }}
-                                exit={{ x: "120%", opacity: 0 }} // ✅ RIGHT me hi wapas jayega
-
-                                transition={{
-                                    type: "spring",
-                                    stiffness: 120,
-                                    damping: 20,
-                                    mass: 0.8
-                                }}
-
-                                className="flex flex-col"
-                            >
-                                <motion.h4
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ delay: 0.2 }}
-                                    className={`text-sm font-mono uppercase tracking-widest mb-6 ${activeExp.accent}`}
-                                >
-                  // Details
-                                </motion.h4>
-
-                                <p className="text-xl md:text-2xl text-zinc-300 leading-relaxed font-light mb-10">
-                                    {activeExp.description}
-                                </p>
-
-                                <div className="space-y-6 mb-12 border-l border-white/10 pl-6 relative">
-                                    {/* Animated line representing the border */}
-                                    <motion.div
-                                        initial={{ height: 0 }}
-                                        animate={{ height: "100%" }}
-                                        transition={{ duration: 0.8, ease: "circOut" }}
-                                        className={`absolute left-[-1px] top-0 w-[2px] bg-gradient-to-b ${activeExp.theme.replace('20', '50')}`}
-                                    />
-
-                                    {activeExp.achievements.map((achievement, i) => (
-                                        <motion.div
-                                            key={i}
-                                            initial={{ opacity: 0, x: -10 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: 0.3 + (i * 0.1) }}
-                                            className="text-zinc-400 text-sm md:text-base leading-relaxed"
-                                        >
-                                            {achievement}
-                                        </motion.div>
-                                    ))}
-                                </div>
-
-                                {/* Tech Stack Pills */}
-                                <div>
-                                    <h5 className="text-xs font-mono uppercase tracking-widest text-zinc-500 mb-4">Core Tech</h5>
-                                    <div className="flex flex-wrap gap-2">
-                                        {activeExp.tech.map((tech, i) => (
-                                            <motion.div
-                                                key={tech}
-                                                initial={{ opacity: 0, scale: 0.8 }}
-                                                animate={{ opacity: 1, scale: 1 }}
-                                                transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.5 + (i * 0.05) }}
-                                                className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium text-zinc-300"
-                                            >
-                                                <TerminalSquare className="h-3 w-3 text-zinc-500" />
-                                                {tech}
-                                            </motion.div>
-                                        ))}
-                                    </div>
-                                </div>
-
-                            </motion.div>
-                        </AnimatePresence>
-                    </div>
-
+                  </div>
                 </div>
-            </div>
-        </section>
-    );
+
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  );
 }

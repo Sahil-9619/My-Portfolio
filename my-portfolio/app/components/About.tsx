@@ -13,7 +13,14 @@ import { useSpring, useTransform } from "framer-motion";
 
 export default function About() {
   const { mouseX, mouseY } = useMouse();
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const cardX = useSpring(
     useTransform(mouseX, [0, 1000], [-10, 10]),
@@ -120,11 +127,8 @@ export default function About() {
 function Stat({ label, value, sub, cardX, cardY, isMobile }: any) {
   return (
     <motion.div
-      style={{
-        x: isMobile ? 0 : cardX,
-        y: isMobile ? 0 : cardY,
-      }}
-      className="relative h-full rounded-2xl border border-[var(--border)] p-1 md:rounded-3xl md:p-1.5 group transition-all duration-500 hover:-translate-y-1"
+      style={!isMobile ? { x: cardX, y: cardY } : {}}
+      className="relative h-full rounded-2xl border border-[var(--border)] p-1 md:rounded-3xl md:p-1.5 group transition-all duration-500"
     >
       <GlowingEffect
         spread={40}
